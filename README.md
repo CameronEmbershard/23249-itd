@@ -5,5 +5,5 @@ ITD Embershard repository
 
 (put on my account because of the fact we couldn't get the original account)
 
-team info: _Embershard_ Number **_23249_** _**O:__hvgghjgftygvchttgnvjyhfhnbvghjgjyk___**_
+team info: _Embershard_ Number **_23249_** 
 
