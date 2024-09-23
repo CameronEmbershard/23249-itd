@@ -1,4 +1,9 @@
-# Road Runner Quickstart
+# 23249-itd
+https://github.com/CameronEmbershard/23249-itd
 
-Check out the [docs](https://rr.brott.dev/docs/v1-0/tuning/).
+ITD Embershard repository
+
+(put on my account because of the fact we couldn't get the original account)
+
+team info: _Embershard_ Number **_23249_**
 
