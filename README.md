@@ -1,7 +1,7 @@
 # 23249-itd
 https://github.com/CameronEmbershard/23249-itd
 
-ITD Embershard repository
+IntoTheDeep Embershard repository for the 2024-2025 game
 
 (put on my account because of the fact we couldn't get the original account)
 
