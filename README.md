@@ -5,5 +5,6 @@ IntoTheDeep Embershard repository for the 2024-2025 game
 
 (put on my account because of the fact we couldn't get the original account)
 
-team info: **_Embershard_** Number **_23249_** 
+team info: **_Embershard_** Number **_23249_**
+**AND ALSO MILO WHY'D YOU DELETE MY CRAPPPPPPPPPPPPPPPPPPP**
 
