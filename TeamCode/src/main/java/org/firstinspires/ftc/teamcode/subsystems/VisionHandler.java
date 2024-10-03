@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -25,11 +26,13 @@ public class VisionHandler {
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
+/*
     private TfodProcessor tfod;
 
     /**
      * The variable to store our instance of the vision portal.
      */
+/*
     private VisionPortal visionPortal;
 
     private List<Recognition> recognitions;
@@ -183,3 +186,4 @@ public class VisionHandler {
         return recognitions;
     }
 }
+ */

@@ -40,7 +40,7 @@ public class RobotTeleopMain extends OpMode {
         //motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
         //servoGrabber = hardwareMap.servo.get("servoGrabber");
         //servoWrist = hardwareMap.servo.get("servoWrist");
-        servoStopper = hardwareMap.servo.get("servoStopper");
+        //servoStopper = hardwareMap.servo.get("servoStopper");
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
         //armSystem = new ArmControl(motorLiftArm, servoGrabber, servoWrist, servoStopper);
