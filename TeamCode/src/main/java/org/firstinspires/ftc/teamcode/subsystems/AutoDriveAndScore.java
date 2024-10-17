@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -283,7 +284,7 @@ public class AutoDriveAndScore {
 
 
 
-
+/*
         double leftRecognitionX = (leftRecognition == null) ? -1 :
                 (leftRecognition.getLeft() + leftRecognition.getRight()) / 2;
         double forwardRecognitionX = (forwardRecognition == null) ? -1 :
@@ -508,3 +509,4 @@ public class AutoDriveAndScore {
         return centimeters * 10 * ticksPerMillimeter;
     }
 }
+*/

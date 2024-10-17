@@ -19,17 +19,17 @@ public class RobotTeleopMain extends OpMode {
     DcMotor motorBackLeft;
 
 
-    DcMotor motorLiftArm;
-    Servo servoGrabber;
-    Servo servoWrist;
-    Servo servoStopper;
+    //DcMotor motorLiftArm;
+    //Servo servoGrabber;
+    //Servo servoWrist;
+    //Servo servoStopper;
 
 
     MechanumDrive driveSystem;
-    ArmControl armSystem;
+    //ArmControl armSystem;
 
 
-    private VisionPortal visionPortal;
+    //private VisionPortal visionPortal;
 
     @Override
     public void init() {
@@ -37,16 +37,16 @@ public class RobotTeleopMain extends OpMode {
         motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-        motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
-        servoGrabber = hardwareMap.servo.get("servoGrabber");
-        servoWrist = hardwareMap.servo.get("servoWrist");
-        servoStopper = hardwareMap.servo.get("servoStopper");
+        //motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
+        //servoGrabber = hardwareMap.servo.get("servoGrabber");
+        //servoWrist = hardwareMap.servo.get("servoWrist");
+        //servoStopper = hardwareMap.servo.get("servoStopper");
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        armSystem = new ArmControl(motorLiftArm, servoGrabber, servoWrist, servoStopper);
+        //armSystem = new ArmControl(motorLiftArm, servoGrabber, servoWrist, servoStopper);
 
-        visionPortal = VisionPortal.easyCreateWithDefaults(
-                hardwareMap.get(WebcamName.class, "Webcam 1"));
+        //visionPortal = VisionPortal.easyCreateWithDefaults(
+        //        hardwareMap.get(WebcamName.class, "Webcam 1"));
     }
 
     @Override
@@ -60,18 +60,18 @@ public class RobotTeleopMain extends OpMode {
 
         // First parameter: armUp input
         // Second parameter: armDown input
-        armSystem.restrictedControlArmLift(gamepad2.right_bumper, gamepad2.right_trigger);
+        //armSystem.restrictedControlArmLift(gamepad2.right_bumper, gamepad2.right_trigger);
 
         // First parameter: grabberOpen input
         // Second parameter: grabberClose input
-        armSystem.controlArmGrabber(gamepad2.x, gamepad2.a);
+        //armSystem.controlArmGrabber(gamepad2.x, gamepad2.a);
 
         // First parameter: wristFlat input
         // Second parameter: wristAngled input
-        armSystem.controlArmWrist(gamepad2.left_trigger, gamepad2.left_bumper);
+        //armSystem.controlArmWrist(gamepad2.left_trigger, gamepad2.left_bumper);
 
         // First parameter: stopperOpen input
         // Second parameter: stopperClose input
-        armSystem.controlArmStopper(gamepad2.y, gamepad2.b);
+        //armSystem.controlArmStopper(gamepad2.y, gamepad2.b);
     }
 }

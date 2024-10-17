@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -63,3 +64,4 @@ public class RobotAutoBluePixelSide extends RobotAuto {
         autoSystem.driveAutonomously(true, false, "BlueBlock");
     }
 }
+*/

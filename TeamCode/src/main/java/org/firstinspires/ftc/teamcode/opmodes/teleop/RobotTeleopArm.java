@@ -34,14 +34,14 @@ public class RobotTeleopArm extends OpMode {
 //        motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
 //        motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
 //        motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-        motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
+        //motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
 //        motorScoringArm = hardwareMap.dcMotor.get("motorScoringArm");
-        servoGrabber = hardwareMap.servo.get("servoGrabber");
-        servoWrist = hardwareMap.servo.get("servoWrist");
-        servoStopper = hardwareMap.servo.get("servoStopper");
+        //servoGrabber = hardwareMap.servo.get("servoGrabber");
+        //servoWrist = hardwareMap.servo.get("servoWrist");
+        //servoStopper = hardwareMap.servo.get("servoStopper");
 
 //        driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        armSystem = new ArmControl(motorLiftArm, servoGrabber, servoWrist, servoStopper);
+        //armSystem = new ArmControl(motorLiftArm, servoGrabber, servoWrist, servoStopper);
     }
 
     @Override
@@ -54,18 +54,18 @@ public class RobotTeleopArm extends OpMode {
 
         // First parameter: armUp input
         // Second parameter: armDown input
-        armSystem.controlArmLift(gamepad1.left_bumper, gamepad1.left_trigger);
+        //armSystem.controlArmLift(gamepad1.left_bumper, gamepad1.left_trigger);
 
         // First parameter: grabberOpen input
         // Second parameter: grabberClose input
-        armSystem.controlArmGrabber(gamepad1.x, gamepad1.a);
+        //armSystem.controlArmGrabber(gamepad1.x, gamepad1.a);
 
         // First parameter: wristFlat input
         // Second parameter: wristAngled input
-        armSystem.controlArmWrist(gamepad1.left_trigger, gamepad1.left_bumper);
+        //armSystem.controlArmWrist(gamepad1.left_trigger, gamepad1.left_bumper);
 
         // First parameter: stopperOpen input
         // Second parameter: stopperClose input
-        armSystem.controlArmStopper(gamepad1.y, gamepad1.b);
+        //armSystem.controlArmStopper(gamepad1.y, gamepad1.b);
     }
 }
