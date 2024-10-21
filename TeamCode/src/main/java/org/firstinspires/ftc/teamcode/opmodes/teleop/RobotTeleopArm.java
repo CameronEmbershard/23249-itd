@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
 import org.firstinspires.ftc.teamcode.drive.ArmSystem;
 
@@ -17,7 +19,9 @@ public class RobotTeleopArm extends OpMode {
     DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
 
 
-    DcMotor motorLiftArm;
+    //DcMotor motorLiftArm;
+    Servo servoGrabber;
+
 
     MechanumDrive driveSystem;
     ArmSystem armSystem;
@@ -28,10 +32,11 @@ public class RobotTeleopArm extends OpMode {
         motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-        motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
+        //motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
+        servoGrabber = hardwareMap.servo.get("servoGrabber");
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        armSystem = new ArmSystem(motorLiftArm);
+        armSystem = new ArmSystem(servoGrabber);
     }
 
     @Override
@@ -44,6 +49,7 @@ public class RobotTeleopArm extends OpMode {
 
         // First parameter: armUp input
         // Second parameter: armDown input
-        armSystem.controlArmLift(gamepad1.left_bumper, gamepad1.left_trigger);
+        //armSystem.controlArmLift(gamepad1.left_bumper, gamepad1.left_trigger);
+        //ArmSystem.ControlGripper(gamepad1.right_bumper);
     }
 }
