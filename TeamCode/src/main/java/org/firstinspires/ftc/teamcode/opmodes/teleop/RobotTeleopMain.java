@@ -19,7 +19,8 @@ public class RobotTeleopMain extends OpMode {
     DcMotor motorBackLeft;
 
 
-    //DcMotor motorLiftArm;
+    DcMotor motorLiftArm;
+    DcMotor motorLiftArm2;
     Servo servoGrabber;
     //Servo servoWrist;
     //Servo servoStopper;
