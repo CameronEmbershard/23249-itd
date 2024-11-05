@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.opmodes.teleop.RobotTeleopMain;
+
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -31,6 +34,10 @@ public class MechanumDrive {
         double x = strafeX * 1.1; // Counteract imperfect strafing
         double rx = rotationX;
 
+        double yaw_rad = Math.toRadians(RobotTeleopMain.getHeading(AngleUnit.DEGREES));
+         x = x * Math.cos(yaw_rad) - y * Math.sin(yaw_rad);
+         y = x * Math.sin(yaw_rad) + y * Math.cos(yaw_rad);
+
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio,
         // but only if at least one is out of the range [-1, 1]
@@ -39,6 +46,7 @@ public class MechanumDrive {
         double backLeftPower = (y - x + rx) / denominator;
         double frontRightPower = (y - x - rx) / denominator;
         double backRightPower = (y + x - rx) / denominator;
+
 
         double overallPower = (moveSlow > 0) ? slowSpeedMultiplier : speedMultiplier;
 

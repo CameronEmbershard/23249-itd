@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
 
@@ -20,6 +23,8 @@ public class RobotTeleopMain extends OpMode {
     Servo servoGrabber;
     //Servo servoWrist;
     //Servo servoStopper;
+
+    private static IMU imu;
 
 
     MechanumDrive driveSystem;
@@ -42,6 +47,11 @@ public class RobotTeleopMain extends OpMode {
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
         ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2);
+
+        imu = hardwareMap.get(IMU.class, "imu");
+        RevHubOrientationOnRobot Orientation = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP);
+        imu.initialize(new IMU.Parameters(Orientation));
 
         //visionPortal = VisionPortal.easyCreateWithDefaults(
         //        hardwareMap.get(WebcamName.class, "Webcam 1"));
@@ -73,5 +83,9 @@ public class RobotTeleopMain extends OpMode {
         // First parameter: stopperOpen input
         // Second parameter: stopperClose input
         //armSystem.controlArmStopper(gamepad2.y, gamepad2.b);
+    }
+
+    public static double getHeading(AngleUnit angleUnit){
+        return imu.getRobotYawPitchRollAngles().getYaw(angleUnit);
     }
 }
