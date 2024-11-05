@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ArmSystem extends OpMode {
 
     DcMotor motorLiftArm;
+    DcMotor motorLiftArm2;
     Servo servoGrabber;
 
     final double liftArmSpeed = 0.5;
@@ -33,12 +34,15 @@ public class ArmSystem extends OpMode {
         telemetry.addData("Servo Pos", "%5.2f", position);
     }
 
-    public ArmSystem(DcMotor motorLiftArm, Servo servoGrabber){
+    public ArmSystem(DcMotor motorLiftArm, Servo servoGrabber, DcMotor motorLiftArm2){
         this.motorLiftArm = motorLiftArm;
+        this.motorLiftArm2 = motorLiftArm2;
         this.servoGrabber = servoGrabber;
 
         motorLiftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLiftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLiftArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLiftArm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public ArmSystem(Servo servoGrabber){
@@ -103,29 +107,56 @@ public class ArmSystem extends OpMode {
 
     // The height that you want to stay at when you let go of the arm buttons
     private int hoverPoint = 0;
-    public void restrictedControlArmLift(boolean moveArmUp, double moveArmDown){
+    public void restrictedControlArmLift2(boolean moveArmUp, double moveArmDown){
 
         if(moveArmUp)
         {
-            motorLiftArm.setTargetPosition(liftArmHighestTicks);
-            motorLiftArm.setPower(liftArmUpSpeed);
-            motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorLiftArm2.setTargetPosition(liftArmHighestTicks);
+            motorLiftArm2.setPower(liftArmUpSpeed);
+            motorLiftArm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            hoverPoint = motorLiftArm.getCurrentPosition();
+            hoverPoint = motorLiftArm2.getCurrentPosition();
         }
         else if(moveArmDown > 0)
         {
-            motorLiftArm.setTargetPosition(0);
-            motorLiftArm.setPower(liftArmDownSpeed * moveArmDown);
-            motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorLiftArm2.setTargetPosition(0);
+            motorLiftArm2.setPower(liftArmDownSpeed * moveArmDown);
+            motorLiftArm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            hoverPoint = motorLiftArm.getCurrentPosition();
+            hoverPoint = motorLiftArm2.getCurrentPosition();
         }
         else
         {
-            motorLiftArm.setTargetPosition(hoverPoint);
-            motorLiftArm.setPower(liftArmHoverPower);
-            motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorLiftArm2.setTargetPosition(hoverPoint);
+            motorLiftArm2.setPower(liftArmHoverPower);
+            motorLiftArm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         }
+        public void restrictedControlArmLift(boolean moveArmUp, double moveArmDown){
+
+            if(moveArmUp)
+            {
+                motorLiftArm.setTargetPosition(liftArmHighestTicks);
+                motorLiftArm.setPower(liftArmUpSpeed);
+                motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                hoverPoint = motorLiftArm.getCurrentPosition();
+            }
+            else if(moveArmDown > 0)
+            {
+                motorLiftArm.setTargetPosition(0);
+                motorLiftArm.setPower(liftArmDownSpeed * moveArmDown);
+                motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                hoverPoint = motorLiftArm.getCurrentPosition();
+            }
+            else
+            {
+                motorLiftArm.setTargetPosition(hoverPoint);
+                motorLiftArm.setPower(liftArmHoverPower);
+                motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+            }
     }
 }

@@ -34,13 +34,14 @@ public class RobotTeleopMain extends OpMode {
         motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-        //motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
+        motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
+        motorLiftArm2 = hardwareMap.dcMotor.get("motorLiftArm2");
         servoGrabber = hardwareMap.servo.get("servoGrabber");
         //servoWrist = hardwareMap.servo.get("servoWrist");
         //servoStopper = hardwareMap.servo.get("servoStopper");
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        ArmSystem = new ArmSystem(servoGrabber);
+        ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2);
 
         //visionPortal = VisionPortal.easyCreateWithDefaults(
         //        hardwareMap.get(WebcamName.class, "Webcam 1"));
@@ -57,7 +58,8 @@ public class RobotTeleopMain extends OpMode {
 
         // First parameter: armUp input
         // Second parameter: armDown input
-        //ArmSystem.restrictedControlArmLift(gamepad2.right_bumper, gamepad2.right_trigger);
+        ArmSystem.restrictedControlArmLift(gamepad2.right_bumper, gamepad2.right_trigger);
+        ArmSystem.restrictedControlArmLift2(gamepad2.left_bumper, gamepad2.left_trigger);
         ArmSystem.ControlGripper(gamepad1.right_bumper);
 
         // First parameter: grabberOpen input
