@@ -37,10 +37,7 @@ public class AutoDriveForward {
 
         driveSystem.resetEncoder();
 
-        driveSystem.moveForward();
-        autoMain.sleep(1000);
-        driveSystem.stopAllMotors();
-        driveSystem.moveLeft();
+        driveSystem.moveBackward();
         autoMain.sleep(2000);
         driveSystem.stopAllMotors();
         autoMain.stop();
