@@ -34,10 +34,6 @@ public class MechanumDrive {
         double x = strafeX * 1.1; // Counteract imperfect strafing
         double rx = rotationX;
 
-        double yaw_rad = Math.toRadians(RobotTeleopMain.getHeading(AngleUnit.DEGREES));
-         x = x * Math.cos(yaw_rad) - y * Math.sin(yaw_rad);
-         y = x * Math.sin(yaw_rad) + y * Math.cos(yaw_rad);
-
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio,
         // but only if at least one is out of the range [-1, 1]
@@ -75,6 +71,38 @@ public class MechanumDrive {
 
         if(reverseBackRight) motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
         else motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
+    }
+
+    public void moveForward(){
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        motorFrontLeft.setPower(1);
+        motorFrontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorFrontRight.setPower(1);
+        motorFrontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorBackLeft.setPower(1);
+        motorBackLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorBackRight.setPower(1);
+        motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
+    }
+
+    public void moveLeft(){
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        motorFrontLeft.setPower(1);
+        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorFrontRight.setPower(1);
+        motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBackLeft.setPower(1);
+        motorBackLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorBackRight.setPower(1);
+        motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     public void resetEncoder(){

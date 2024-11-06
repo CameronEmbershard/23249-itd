@@ -1,13 +1,9 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.IMU;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
 
@@ -22,10 +18,9 @@ public class RobotTeleopMain extends OpMode {
     DcMotor motorLiftArm;
     DcMotor motorLiftArm2;
     Servo servoGrabber;
-    //Servo servoWrist;
-    //Servo servoStopper;
+    Servo servoWrist;
+    Servo servoArm;
 
-    private static IMU imu;
 
 
     MechanumDrive driveSystem;
@@ -43,16 +38,13 @@ public class RobotTeleopMain extends OpMode {
         motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
         motorLiftArm2 = hardwareMap.dcMotor.get("motorLiftArm2");
         servoGrabber = hardwareMap.servo.get("servoGrabber");
-        //servoWrist = hardwareMap.servo.get("servoWrist");
-        //servoStopper = hardwareMap.servo.get("servoStopper");
+        servoWrist = hardwareMap.servo.get("servoWrist");
+        servoArm = hardwareMap.servo.get("servoArm");
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2);
+        ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2,servoWrist,servoArm);
+        //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2, servoArm);
 
-        imu = hardwareMap.get(IMU.class, "imu");
-        RevHubOrientationOnRobot Orientation = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP);
-        imu.initialize(new IMU.Parameters(Orientation));
 
         //visionPortal = VisionPortal.easyCreateWithDefaults(
         //        hardwareMap.get(WebcamName.class, "Webcam 1"));
@@ -69,24 +61,17 @@ public class RobotTeleopMain extends OpMode {
 
         // First parameter: armUp input
         // Second parameter: armDown input
-        ArmSystem.restrictedControlArmLift(gamepad2.right_bumper, gamepad2.right_trigger);
-        ArmSystem.restrictedControlArmLift2(gamepad2.left_bumper, gamepad2.left_trigger);
-        ArmSystem.ControlGripper(gamepad1.right_bumper);
+        ArmSystem.restrictedControlArmLift(gamepad2.left_bumper, gamepad2.left_trigger);
+        ArmSystem.restrictedControlArmLift2(gamepad2.right_bumper, gamepad2.right_trigger);
+        ArmSystem.ControlGripper(gamepad2.a);
 
         // First parameter: grabberOpen input
         // Second parameter: grabberClose input
-        //armSystem.controlArmGrabber(gamepad2.x, gamepad2.a);
+        ArmSystem.ControlArm(gamepad2.dpad_left, gamepad2.dpad_right);
 
         // First parameter: wristFlat input
         // Second parameter: wristAngled input
-        //armSystem.controlArmWrist(gamepad2.left_trigger, gamepad2.left_bumper);
-
-        // First parameter: stopperOpen input
-        // Second parameter: stopperClose input
-        //armSystem.controlArmStopper(gamepad2.y, gamepad2.b);
+        ArmSystem.ControlWrist(gamepad2.dpad_up, gamepad2.dpad_down);
     }
 
-    public static double getHeading(AngleUnit angleUnit){
-        return imu.getRobotYawPitchRollAngles().getYaw(angleUnit);
-    }
 }

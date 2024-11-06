@@ -13,17 +13,21 @@ public class ArmSystem extends OpMode {
     DcMotor motorLiftArm;
     DcMotor motorLiftArm2;
     Servo servoGrabber;
+    Servo servoWrist;
+    Servo servoArm;
 
     final double liftArmSpeed = 0.5;
     final double liftArmUpSpeed = liftArmSpeed * -1;
-    final double liftArmDownSpeed = liftArmSpeed * 2;
-    final double liftArmHoverPower = 0.2;
+    final double liftArmDownSpeed = liftArmSpeed;
+    final double liftArmHoverPower = 1;
 
     static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
-    static final double MAX_POS     =  0.5;     // Maximum rotational position
-    static final double MIN_POS     =  0.25;     // Minimum rotational position
+    static final double MAX_POS     =  1;     // Maximum rotational position
+    static final double MIN_POS     =  0;     // Minimum rotational position
 
-    double  position = MAX_POS; // Start at max position
+    double  positionGrabber = MAX_POS; // Start at max position
+    double  positionWrist = MAX_POS; // Start at max position
+    double  positionArm = MAX_POS; // Start at max position
 
     final int liftArmHighestTicks = -1900;
 
@@ -31,13 +35,28 @@ public class ArmSystem extends OpMode {
     public void init() {
         //motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
         servoGrabber = hardwareMap.servo.get("servoGrabber");
-        telemetry.addData("Servo Pos", "%5.2f", position);
+        servoWrist.setPosition(MIN_POS);
+        servoGrabber.setPosition(MAX_POS);
     }
 
-    public ArmSystem(DcMotor motorLiftArm, Servo servoGrabber, DcMotor motorLiftArm2){
+    public ArmSystem(DcMotor motorLiftArm, Servo servoGrabber, DcMotor motorLiftArm2, Servo servoWrist, Servo servoArm){
         this.motorLiftArm = motorLiftArm;
         this.motorLiftArm2 = motorLiftArm2;
         this.servoGrabber = servoGrabber;
+        this.servoWrist = servoWrist;
+        this.servoArm = servoArm;
+
+        motorLiftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLiftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLiftArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLiftArm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public ArmSystem(DcMotor motorLiftArm, Servo servoGrabber, DcMotor motorLiftArm2, Servo servoArm){
+        this.motorLiftArm = motorLiftArm;
+        this.motorLiftArm2 = motorLiftArm2;
+        this.servoGrabber = servoGrabber;
+        this.servoArm = servoArm;
 
         motorLiftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLiftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -48,6 +67,7 @@ public class ArmSystem extends OpMode {
     public ArmSystem(Servo servoGrabber){
         this.servoGrabber = servoGrabber;
     }
+
 
     @Override
     public void loop() {
@@ -62,26 +82,56 @@ public class ArmSystem extends OpMode {
         // slew the servo, according to the rampUp (direction) variable.
         if (Close) {
             // Keep stepping up until we hit the max value.
-            position += INCREMENT ;
-            if (position >= MAX_POS ) {
-                position = MAX_POS;
+            positionGrabber += INCREMENT ;
+            if (positionGrabber >= MAX_POS ) {
+                positionGrabber = MAX_POS;
                 Close = !Close;   // Switch ramp direction
             }
         }
         else {
             // Keep stepping down until we hit the min value.
-            position -= INCREMENT ;
-            if (position <= MIN_POS ) {
-                position = MIN_POS;
+            positionGrabber -= INCREMENT ;
+            if (positionGrabber <= MIN_POS ) {
+                positionGrabber = MIN_POS;
                 Close = !Close;  // Switch ramp direction
             }
         }
-        servoGrabber.setPosition(position);
-        telemetry.addData("Servo Moved To", "%5.2f", position);
+        servoGrabber.setPosition(positionGrabber);
+    }
+
+    public void ControlWrist(boolean Up, boolean Down){
+        // slew the servo, according to the rampUp (direction) variable.
+        if (Up) {
+            // Keep stepping up until we hit the max value.
+            positionWrist += INCREMENT ;
+        }
+        else if(Down){
+            // Keep stepping down until we hit the min value.
+            positionWrist -= INCREMENT ;
+        }
+        servoWrist.setPosition(positionWrist);
+    }
+
+    public void ControlArm(boolean Up, boolean Down){
+        // slew the servo, according to the rampUp (direction) variable.
+        if (Up) {
+            // Keep stepping up until we hit the max value.
+            if(positionArm < MAX_POS){
+                positionArm += INCREMENT ;
+            }
+        }
+        else if(Down){
+            // Keep stepping down until we hit the min value.
+            if(positionArm > MIN_POS){
+                positionArm -= INCREMENT;
+            }
+        }
+        servoArm.setPosition(positionArm);
     }
 
     /* The trigger buttons on the controller are represented as a double
      * This means:
+     *
      *                              not pressed = 0.0;
      *                              half pressed = 0.5;
      *                              full pressed = 1.0;
@@ -110,15 +160,13 @@ public class ArmSystem extends OpMode {
     public void restrictedControlArmLift2(boolean moveArmUp, double moveArmDown) {
 
         if (moveArmUp) {
-            motorLiftArm2.setTargetPosition(liftArmHighestTicks);
             motorLiftArm2.setPower(liftArmUpSpeed);
-            motorLiftArm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorLiftArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             hoverPoint = motorLiftArm2.getCurrentPosition();
-        } else if (moveArmDown > 0) {
-            motorLiftArm2.setTargetPosition(0);
-            motorLiftArm2.setPower(liftArmDownSpeed * moveArmDown);
-            motorLiftArm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else if (moveArmDown != 0.0) {
+            motorLiftArm2.setPower(liftArmDownSpeed);
+            motorLiftArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             hoverPoint = motorLiftArm2.getCurrentPosition();
         } else {
@@ -128,28 +176,29 @@ public class ArmSystem extends OpMode {
 
         }
     }
+
+
+
     public void restrictedControlArmLift(boolean moveArmUp, double moveArmDown){
 
             if(moveArmUp)
             {
-                motorLiftArm.setTargetPosition(liftArmHighestTicks);
-                motorLiftArm.setPower(liftArmUpSpeed);
-                motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motorLiftArm.setPower(-liftArmUpSpeed);
+                motorLiftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 hoverPoint = motorLiftArm.getCurrentPosition();
             }
-            else if(moveArmDown > 0)
+            else if(moveArmDown != 0.0)
             {
-                motorLiftArm.setTargetPosition(0);
-                motorLiftArm.setPower(liftArmDownSpeed * moveArmDown);
-                motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motorLiftArm.setPower(-liftArmDownSpeed);
+                motorLiftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 hoverPoint = motorLiftArm.getCurrentPosition();
             }
             else
             {
                 motorLiftArm.setTargetPosition(hoverPoint);
-                motorLiftArm.setPower(liftArmHoverPower);
+                motorLiftArm.setPower(-liftArmHoverPower);
                 motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
