@@ -1,9 +1,9 @@
-/*
+
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.opmodes.auto.RobotAutoRedScoringSide;
+import org.firstinspires.ftc.teamcode.opmodes.auto.UniversalAutoAndPark;
 
 
 public class AutoDriveForward {
@@ -18,11 +18,11 @@ public class AutoDriveForward {
 
     ElapsedTime timer;
     MechanumDrive driveSystem;
-    RobotAutoRedScoringSide autoMain;
+    UniversalAutoAndPark autoMain;
 
     double ticksPerMillimeter;
 
-    public AutoDriveForward(ElapsedTime timer, MechanumDrive driveSystem, RobotAutoRedScoringSide autoMain){
+    public AutoDriveForward(ElapsedTime timer, MechanumDrive driveSystem, UniversalAutoAndPark autoMain){
         this.timer = timer;
         this.driveSystem = driveSystem;
         this.autoMain = autoMain;
@@ -31,18 +31,19 @@ public class AutoDriveForward {
     }
 
     public void driveAutonomously() {
-        driveSystem.setToEncoderMode();
         driveSystem.reverseDirections(true, false, true, false);
 
         timer.reset();
 
         driveSystem.resetEncoder();
 
-        driveSystem.setTargetPositions(
-                centimetersToTicks(78.74), centimetersToTicks(78.74),
-                centimetersToTicks(78.74), centimetersToTicks(78.74));
-
-        driveSystem.moveToTargetPositions(drivePower, drivePower, drivePower, drivePower);
+        driveSystem.moveForward();
+        autoMain.sleep(1000);
+        driveSystem.stopAllMotors();
+        driveSystem.moveLeft();
+        autoMain.sleep(2000);
+        driveSystem.stopAllMotors();
+        autoMain.stop();
 
 //        autoMain.sleep(driveTime * 1000);
 //        while (timer.seconds() < driveTime) {
@@ -50,23 +51,7 @@ public class AutoDriveForward {
 //                    driveSystem.getMotorTicks(2), driveSystem.getMotorTicks(3));
 //        }
 
-        autoMain.addTelemetry("Motor Ticks: ", driveSystem.getMotorTicks(0), driveSystem.getMotorTicks(1),
-                driveSystem.getMotorTicks(2), driveSystem.getMotorTicks(3));
-        autoMain.addTelemetry("Wowza", 1);
 
-        timer.reset();
-
-        driveSystem.setTargetPositions(
-                centimetersToTicks(30), centimetersToTicks(30),
-                centimetersToTicks(30), centimetersToTicks(30));
-
-        driveSystem.moveToTargetPositions(drivePower, drivePower, drivePower, drivePower);
-        while (timer.seconds() < driveTime / 2) {
-
-
-            autoMain.addTelemetry("Motor Ticks: ", driveSystem.getMotorTicks(0), driveSystem.getMotorTicks(1),
-                    driveSystem.getMotorTicks(2), driveSystem.getMotorTicks(3));
-        }
     }
 
     private double millimetersToTicks(double millimeters){
@@ -77,4 +62,3 @@ public class AutoDriveForward {
         return centimeters * 10 * ticksPerMillimeter;
     }
 }
-*/
