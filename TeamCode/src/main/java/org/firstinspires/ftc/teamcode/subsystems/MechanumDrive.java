@@ -105,19 +105,19 @@ public class MechanumDrive {
         motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    public void moveLeft(){
+    public void moveRight(){
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        motorFrontLeft.setPower(1);
+        motorFrontLeft.setPower(0.25);
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorFrontRight.setPower(1);
+        motorFrontRight.setPower(0.25);
         motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBackLeft.setPower(1);
+        motorBackLeft.setPower(0.25);
         motorBackLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorBackRight.setPower(1);
+        motorBackRight.setPower(0.25);
         motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
