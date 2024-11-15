@@ -34,34 +34,41 @@ public class ArmSystem extends OpMode {
 
     final int liftArmHighestTicks = -1900;
 
+    //get the hoverPoint so it can be passed to main for telemetry
     public int getHoverPoint(){
         return hoverPoint;
     }
 
+    //get the second hoverPoint so it can be passed to main for telemetry
     public int getHoverPoint2(){
         return hoverPoint2;
     }
 
+    //get the Grabber's position so it can be passed to main for telemetry
     public double getPositionGrabber(){
         return positionGrabber;
     }
 
+    //get the Wrist's position so it can be passed to main for telemetry
     public double getPositionWrist(){
         return positionWrist;
     }
 
+    //get the Arm's position so it can be passed to main for telemetry
     public double getPositionArm(){
         return positionArm;
     }
 
     @Override
     public void init() {
+        //if everything explodes do this
         //motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
         servoGrabber = hardwareMap.servo.get("servoGrabber");
         servoWrist.setPosition(MIN_POS);
         servoGrabber.setPosition(MAX_POS);
     }
 
+    //this is called in main and setups all the variables for this script
     public ArmSystem(DcMotor motorLiftArm, Servo servoGrabber, DcMotor motorLiftArm2, Servo servoWrist, Servo servoArm){
         this.motorLiftArm = motorLiftArm;
         this.motorLiftArm2 = motorLiftArm2;
@@ -75,33 +82,19 @@ public class ArmSystem extends OpMode {
         motorLiftArm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public ArmSystem(DcMotor motorLiftArm, Servo servoGrabber, DcMotor motorLiftArm2, Servo servoArm){
-        this.motorLiftArm = motorLiftArm;
-        this.motorLiftArm2 = motorLiftArm2;
-        this.servoGrabber = servoGrabber;
-        this.servoArm = servoArm;
-
-        motorLiftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLiftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorLiftArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLiftArm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
 
     public ArmSystem(Servo servoGrabber){
         this.servoGrabber = servoGrabber;
     }
 
-
+    //this is so that java doesn't get mad
     @Override
-    public void loop() {
-        // First parameter: armUp input
-        // Second parameter: armDown input
+    public void loop() {}
 
 
-    }
-
+    //controls the gripper takes in a boolean(binded to B on gpad2 in main)
     public void ControlGripper(boolean Close){
-        // slew the servo, according to the rampUp (direction) variable.
+        //if the B-button is not being pressed close the gripper
         if (!Close) {
             // Keep stepping up until we hit the max value.
             positionGrabber += INCREMENT ;
@@ -110,6 +103,7 @@ public class ArmSystem extends OpMode {
                 Close = !Close;   // Switch ramp direction
             }
         }
+        //if the B-Button IS being pressed open the gripper
         else {
             // Keep stepping down until we hit the min value.
             positionGrabber -= INCREMENT ;
@@ -118,53 +112,53 @@ public class ArmSystem extends OpMode {
                 Close = !Close;  // Switch ramp direction
             }
         }
+        //send the new position to the grabber
         servoGrabber.setPosition(positionGrabber);
 
 
     }
 
+
+    //controls the wrist. Takes in an up(D-pad Up), down(D-Pad Down), and variable to go to half position(Binded to X-button)
     public void ControlWrist(boolean Up, boolean Down, boolean Half){
-        // slew the servo, according to the rampUp (direction) variable.
+        // if D-Pad Up being pressed increses the servo position by increment
         if (Up) {
             // Keep stepping up until we hit the max value.
             positionWrist += INCREMENT ;
         }
+        //if D-Pad down being pressed decrease the servo position by increment
         else if(Down){
             // Keep stepping down until we hit the min value.
             positionWrist -= INCREMENT ;
         }
+        //if x-button being pushed move to half max position
         if(Half){   positionWrist = MAX_POS/2; }
+        //send new position to servo
         servoWrist.setPosition(positionWrist);
     }
 
+    //controls the Arm. Takes in an up(Y button), down(A button), and variable to go to half position(Binded to X-button)
     public void ControlArm(boolean Up, boolean Down, boolean Half){
-        // slew the servo, according to the rampUp (direction) variable.
+        // if Y button being pushed add increment to the arm position if not at max position
         if (Up) {
             // Keep stepping up until we hit the max value.
             if(positionArm < MAX_POS){
                 positionArm += INCREMENT ;
             }
         }
+        // if Y button being pushed subtract increment to the arm position if not at min position
         else if(Down){
             // Keep stepping down until we hit the min value.
             if(positionArm > MIN_POS){
                 positionArm -= INCREMENT;
             }
         }
+        //if x-button being pushed move to half max position
         if(Half){   positionArm = MAX_POS/2; }
+        //send new position to servo
         servoArm.setPosition(positionArm);
     }
 
-    /* The trigger buttons on the controller are represented as a double
-     * This means:
-     *
-     *                              not pressed = 0.0;
-     *                              half pressed = 0.5;
-     *                              full pressed = 1.0;
-     * and everything in between
-     */
-
-    // The height that you want to stay at when you let go of the arm buttons
     public void restrictedControlArmLift2(boolean moveArmUp, double moveArmDown) {
 
         if (moveArmUp) {
