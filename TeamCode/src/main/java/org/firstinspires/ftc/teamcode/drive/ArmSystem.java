@@ -19,17 +19,40 @@ public class ArmSystem extends OpMode {
     final double liftArmSpeed = 0.5;
     final double liftArmUpSpeed = liftArmSpeed * -1;
     final double liftArmDownSpeed = liftArmSpeed;
-    final double liftArmHoverPower = 1;
+    final double liftArmHoverPower = 0.5;
 
     static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final double MAX_POS     =  1;     // Maximum rotational position
-    static final double MIN_POS     =  0;     // Minimum rotational position
+    static final double MIN_POS     =  0.15;     // Minimum rotational position
 
     double  positionGrabber = MAX_POS; // Start at max position
     double  positionWrist = MAX_POS; // Start at max position
     double  positionArm = MAX_POS; // Start at max position
 
+    private int hoverPoint = 0;
+    private int hoverPoint2 = 0;
+
     final int liftArmHighestTicks = -1900;
+
+    public int getHoverPoint(){
+        return hoverPoint;
+    }
+
+    public int getHoverPoint2(){
+        return hoverPoint2;
+    }
+
+    public double getPositionGrabber(){
+        return positionGrabber;
+    }
+
+    public double getPositionWrist(){
+        return positionWrist;
+    }
+
+    public double getPositionArm(){
+        return positionArm;
+    }
 
     @Override
     public void init() {
@@ -73,14 +96,13 @@ public class ArmSystem extends OpMode {
     public void loop() {
         // First parameter: armUp input
         // Second parameter: armDown input
-        controlArmLift(gamepad1.left_bumper, gamepad1.left_trigger);
-        ControlGripper(gamepad1.right_bumper);
+
 
     }
 
     public void ControlGripper(boolean Close){
         // slew the servo, according to the rampUp (direction) variable.
-        if (Close) {
+        if (!Close) {
             // Keep stepping up until we hit the max value.
             positionGrabber += INCREMENT ;
             if (positionGrabber >= MAX_POS ) {
@@ -97,9 +119,11 @@ public class ArmSystem extends OpMode {
             }
         }
         servoGrabber.setPosition(positionGrabber);
+
+
     }
 
-    public void ControlWrist(boolean Up, boolean Down){
+    public void ControlWrist(boolean Up, boolean Down, boolean Half){
         // slew the servo, according to the rampUp (direction) variable.
         if (Up) {
             // Keep stepping up until we hit the max value.
@@ -109,10 +133,11 @@ public class ArmSystem extends OpMode {
             // Keep stepping down until we hit the min value.
             positionWrist -= INCREMENT ;
         }
+        if(Half){   positionWrist = MAX_POS/2; }
         servoWrist.setPosition(positionWrist);
     }
 
-    public void ControlArm(boolean Up, boolean Down){
+    public void ControlArm(boolean Up, boolean Down, boolean Half){
         // slew the servo, according to the rampUp (direction) variable.
         if (Up) {
             // Keep stepping up until we hit the max value.
@@ -126,6 +151,7 @@ public class ArmSystem extends OpMode {
                 positionArm -= INCREMENT;
             }
         }
+        if(Half){   positionArm = MAX_POS/2; }
         servoArm.setPosition(positionArm);
     }
 
@@ -138,39 +164,21 @@ public class ArmSystem extends OpMode {
      * and everything in between
      */
 
-    public void controlArmLift(boolean moveArmUp, double moveArmDown){
-        motorLiftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        if(moveArmUp)
-        {
-            motorLiftArm.setPower(liftArmUpSpeed);
-        }
-        else if(moveArmDown > 0)
-        {
-            motorLiftArm.setPower(liftArmDownSpeed * moveArmDown);
-        }
-        else
-        {
-            motorLiftArm.setPower(0);
-        }
-    }
-
     // The height that you want to stay at when you let go of the arm buttons
-    private int hoverPoint = 0;
     public void restrictedControlArmLift2(boolean moveArmUp, double moveArmDown) {
 
         if (moveArmUp) {
             motorLiftArm2.setPower(liftArmUpSpeed);
-            motorLiftArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorLiftArm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-            hoverPoint = motorLiftArm2.getCurrentPosition();
+            hoverPoint2 = motorLiftArm2.getCurrentPosition();
         } else if (moveArmDown != 0.0) {
             motorLiftArm2.setPower(liftArmDownSpeed);
-            motorLiftArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorLiftArm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-            hoverPoint = motorLiftArm2.getCurrentPosition();
+            hoverPoint2 = motorLiftArm2.getCurrentPosition();
         } else {
-            motorLiftArm2.setTargetPosition(hoverPoint);
+            motorLiftArm2.setTargetPosition(hoverPoint2);
             motorLiftArm2.setPower(liftArmHoverPower);
             motorLiftArm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -178,27 +186,26 @@ public class ArmSystem extends OpMode {
     }
 
 
+    public void restrictedControlArmLift(double moveArmUp, boolean moveArmDown){
 
-    public void restrictedControlArmLift(boolean moveArmUp, double moveArmDown){
-
-            if(moveArmUp)
+            if(moveArmUp != 0.0)
             {
-                motorLiftArm.setPower(-liftArmUpSpeed);
-                motorLiftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motorLiftArm.setPower(liftArmUpSpeed);
+                motorLiftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
                 hoverPoint = motorLiftArm.getCurrentPosition();
             }
-            else if(moveArmDown != 0.0)
+            else if(moveArmDown)
             {
-                motorLiftArm.setPower(-liftArmDownSpeed);
-                motorLiftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motorLiftArm.setPower(liftArmDownSpeed);
+                motorLiftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
                 hoverPoint = motorLiftArm.getCurrentPosition();
             }
             else
             {
                 motorLiftArm.setTargetPosition(hoverPoint);
-                motorLiftArm.setPower(-liftArmHoverPower);
+                motorLiftArm.setPower(liftArmHoverPower);
                 motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
