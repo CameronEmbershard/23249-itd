@@ -1,20 +1,16 @@
-/*
 package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.subsystems.ArmControl;
-import org.firstinspires.ftc.teamcode.subsystems.AutoDriveAndScore;
+import org.firstinspires.ftc.teamcode.drive.ArmSystem;
+import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
-import org.firstinspires.ftc.teamcode.subsystems.VisionHandler;
 
 @Autonomous(name = "AutoRedRight")
-public class RobotAutoRedScoringSide extends RobotAuto {
+public class UniversalAutoAndPark extends RobotAuto {
     DcMotor motorFrontRight;
     DcMotor motorBackRight;
     DcMotor motorFrontLeft;
@@ -22,18 +18,16 @@ public class RobotAutoRedScoringSide extends RobotAuto {
 
 
     DcMotor motorLiftArm;
+    DcMotor motorLiftArm2;
     Servo servoGrabber;
     Servo servoWrist;
-    Servo servoStopper;
+    Servo servoArm;
 
     ElapsedTime timer;
+    AutoDriveForward autoSystem;
 
     MechanumDrive driveSystem;
-    ArmControl armSystem;
-    VisionHandler visionSystem;
-    AutoDriveAndScore autoSystem;
-
-    WebcamName webcam;
+    org.firstinspires.ftc.teamcode.drive.ArmSystem ArmSystem;
 
     @Override
     public void runOpMode()
@@ -43,26 +37,25 @@ public class RobotAutoRedScoringSide extends RobotAuto {
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
         motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
-        //motorScoringArm = hardwareMap.dcMotor.get("motorScoringArm");
+        motorLiftArm2 = hardwareMap.dcMotor.get("motorLiftArm2");
         servoGrabber = hardwareMap.servo.get("servoGrabber");
         servoWrist = hardwareMap.servo.get("servoWrist");
-        servoStopper = hardwareMap.servo.get("servoStopper");
+        servoArm = hardwareMap.servo.get("servoArm");
 
-        webcam = hardwareMap.get(WebcamName.class, "Webcam 1");
+        //webcam = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        armSystem = new ArmControl(motorLiftArm, servoGrabber, servoWrist, servoStopper);
-        visionSystem = new VisionHandler(webcam, false);
+        ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2,servoWrist,servoArm);
+        //visionSystem = new VisionHandler(webcam, false);
 
         timer = new ElapsedTime();
 
-        autoSystem = new AutoDriveAndScore(timer, driveSystem, armSystem,this, visionSystem);
+        AutoDriveForward autoSystem = new AutoDriveForward(timer, driveSystem, this, ArmSystem);
 
         addTelemetry("Completed Init:", true);
 
         waitForStart();
 
-        autoSystem.driveAutonomously(false, true, "RedBlock");
+        autoSystem.driveAutonomously();
     }
 }
-*/

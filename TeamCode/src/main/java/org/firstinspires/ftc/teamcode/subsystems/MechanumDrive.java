@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.opmodes.teleop.RobotTeleopMain;
+
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -40,6 +43,7 @@ public class MechanumDrive {
         double frontRightPower = (y - x - rx) / denominator;
         double backRightPower = (y + x - rx) / denominator;
 
+
         double overallPower = (moveSlow > 0) ? slowSpeedMultiplier : speedMultiplier;
 
         motorFrontLeft.setPower(frontLeftPower * overallPower);
@@ -67,6 +71,42 @@ public class MechanumDrive {
 
         if(reverseBackRight) motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
         else motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
+    }
+
+    public void moveForward(){
+        motorFrontLeft.setPower(1);
+        motorFrontRight.setPower(1);
+        motorBackLeft.setPower(1);
+        motorBackRight.setPower(1);
+    }
+
+    public void moveBackward(){
+        motorFrontLeft.setPower(-1);
+        motorFrontRight.setPower(-1);
+        motorBackLeft.setPower(-1);
+        motorBackRight.setPower(-1);
+    }
+
+    public void moveRight(){
+        motorFrontLeft.setPower(1);
+        motorFrontRight.setPower(1);
+        motorBackLeft.setPower(-1);
+        motorBackRight.setPower(-1);
+    }
+
+    public void setMoveTargetInches(int inches){
+        //the drive motors we use have a TPR of ~208487
+        //and a full rotation of our wheels have them moving ~18.54 inches
+        //so for us to move an inch the encoder has to read ~11245
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        motorFrontLeft.setTargetPosition(11245*inches);
+        motorFrontRight.setTargetPosition(11245*inches);
+        motorBackLeft.setTargetPosition(11245*inches);
+        motorBackRight.setTargetPosition(11245*inches);
     }
 
     public void resetEncoder(){
