@@ -217,13 +217,11 @@ public class ArmSystem extends OpMode {
             }
             else
             {
+                //unlike above we have to use the encoder to be able to run to a set position
+                motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 //set the target hover point to the position found above and move the arm at a set speed to hold it
                 motorLiftArm.setTargetPosition(hoverPoint);
                 motorLiftArm.setPower(liftArmHoverPower);
-                //unlike above we have to use the encoder to be able to run to a set position
-                motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
             }
     }
 }
