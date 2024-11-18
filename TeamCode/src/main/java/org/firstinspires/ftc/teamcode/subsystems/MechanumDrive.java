@@ -73,40 +73,67 @@ public class MechanumDrive {
         else motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
-    public void moveForward(){
+    public void moveForward(int inches){
+        //the drive motors we use have a TPR of ~208487
+        //and a full rotation of our wheels have them moving ~18.54 inches
+        //so for us to move an inch the encoder has to read ~11245
+        motorFrontLeft.setTargetPosition(11245*inches);
+        motorFrontRight.setTargetPosition(11245*inches);
+        motorBackLeft.setTargetPosition(11245*inches);
+        motorBackRight.setTargetPosition(11245*inches);
+
+        //to be able to use run to position mode it has to be declared after setting a position
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         motorFrontLeft.setPower(1);
         motorFrontRight.setPower(1);
         motorBackLeft.setPower(1);
         motorBackRight.setPower(1);
     }
 
-    public void moveBackward(){
+    public void moveBackward(int inches){
+        //the drive motors we use have a TPR of ~208487
+        //and a full rotation of our wheels have them moving ~18.54 inches
+        //so for us to move an inch the encoder has to read ~11245
+        motorFrontLeft.setTargetPosition(-11245*inches);
+        motorFrontRight.setTargetPosition(-11245*inches);
+        motorBackLeft.setTargetPosition(-11245*inches);
+        motorBackRight.setTargetPosition(-11245*inches);
+
+        //to be able to use run to position mode it has to be declared after setting a position
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         motorFrontLeft.setPower(-1);
         motorFrontRight.setPower(-1);
         motorBackLeft.setPower(-1);
         motorBackRight.setPower(-1);
     }
 
-    public void moveRight(){
-        motorFrontLeft.setPower(1);
-        motorFrontRight.setPower(1);
-        motorBackLeft.setPower(-1);
-        motorBackRight.setPower(-1);
-    }
-
-    public void setMoveTargetInches(int inches){
+    public void moveRight(int inches){
         //the drive motors we use have a TPR of ~208487
         //and a full rotation of our wheels have them moving ~18.54 inches
         //so for us to move an inch the encoder has to read ~11245
+        motorFrontLeft.setTargetPosition(11245*inches);
+        motorFrontRight.setTargetPosition(11245*inches);
+        motorBackLeft.setTargetPosition(-11245*inches);
+        motorBackRight.setTargetPosition(-11245*inches);
+
+        //to be able to use run to position mode it has to be declared after setting a position
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorFrontLeft.setTargetPosition(11245*inches);
-        motorFrontRight.setTargetPosition(11245*inches);
-        motorBackLeft.setTargetPosition(11245*inches);
-        motorBackRight.setTargetPosition(11245*inches);
+        motorFrontLeft.setPower(1);
+        motorFrontRight.setPower(1);
+        motorBackLeft.setPower(-1);
+        motorBackRight.setPower(-1);
     }
 
     public void resetEncoder(){

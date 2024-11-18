@@ -42,8 +42,7 @@ public class AutoDriveForward {
 
         driveSystem.resetEncoder();
 
-        driveSystem.setMoveTargetInches(24);
-        driveSystem.moveRight();
+        driveSystem.moveRight(12);
         autoMain.sleep(1800);
         driveSystem.stopAllMotors();
 
