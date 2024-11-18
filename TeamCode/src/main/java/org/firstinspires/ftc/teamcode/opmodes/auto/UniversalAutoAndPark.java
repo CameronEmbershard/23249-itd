@@ -50,7 +50,7 @@ public class UniversalAutoAndPark extends RobotAuto {
 
         timer = new ElapsedTime();
 
-        AutoDriveForward autoSystem = new AutoDriveForward(timer, driveSystem, this);
+        AutoDriveForward autoSystem = new AutoDriveForward(timer, driveSystem, this, ArmSystem);
 
         addTelemetry("Completed Init:", true);
 

@@ -74,51 +74,39 @@ public class MechanumDrive {
     }
 
     public void moveForward(){
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         motorFrontLeft.setPower(1);
-        motorFrontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         motorFrontRight.setPower(1);
-        motorFrontRight.setDirection(DcMotorSimple.Direction.FORWARD);
         motorBackLeft.setPower(1);
-        motorBackLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         motorBackRight.setPower(1);
-        motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     public void moveBackward(){
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        motorFrontLeft.setPower(1);
-        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorFrontRight.setPower(1);
-        motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBackLeft.setPower(1);
-        motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBackRight.setPower(1);
-        motorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorFrontLeft.setPower(-1);
+        motorFrontRight.setPower(-1);
+        motorBackLeft.setPower(-1);
+        motorBackRight.setPower(-1);
     }
 
     public void moveRight(){
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFrontLeft.setPower(1);
+        motorFrontRight.setPower(1);
+        motorBackLeft.setPower(-1);
+        motorBackRight.setPower(-1);
+    }
 
-        motorFrontLeft.setPower(0.25);
-        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorFrontRight.setPower(0.25);
-        motorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBackLeft.setPower(0.25);
-        motorBackLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorBackRight.setPower(0.25);
-        motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
+    public void setMoveTargetInches(int inches){
+        //the drive motors we use have a TPR of ~208487
+        //and a full rotation of our wheels have them moving ~18.54 inches
+        //so for us to move an inch the encoder has to read ~11245
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        motorFrontLeft.setTargetPosition(11245*inches);
+        motorFrontRight.setTargetPosition(11245*inches);
+        motorBackLeft.setTargetPosition(11245*inches);
+        motorBackRight.setTargetPosition(11245*inches);
     }
 
     public void resetEncoder(){

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.opmodes.auto.UniversalAutoAndPark;
 
 
@@ -20,14 +21,18 @@ public class AutoDriveForward {
     MechanumDrive driveSystem;
     UniversalAutoAndPark autoMain;
 
+    org.firstinspires.ftc.teamcode.drive.ArmSystem ArmSystem;
+
     double ticksPerMillimeter;
 
-    public AutoDriveForward(ElapsedTime timer, MechanumDrive driveSystem, UniversalAutoAndPark autoMain){
+    public AutoDriveForward(ElapsedTime timer, MechanumDrive driveSystem, UniversalAutoAndPark autoMain, ArmSystem armSystem){
         this.timer = timer;
         this.driveSystem = driveSystem;
         this.autoMain = autoMain;
+        this.ArmSystem = armSystem;
 
         ticksPerMillimeter = ticksPerRotation / (wheelDiameter * Math.PI);
+
     }
 
     public void driveAutonomously() {
@@ -37,10 +42,10 @@ public class AutoDriveForward {
 
         driveSystem.resetEncoder();
 
+        driveSystem.setMoveTargetInches(24);
         driveSystem.moveRight();
-        autoMain.sleep(500);
+        autoMain.sleep(1800);
         driveSystem.stopAllMotors();
-        autoMain.stop();
 
 //        autoMain.sleep(driveTime * 1000);
 //        while (timer.seconds() < driveTime) {
