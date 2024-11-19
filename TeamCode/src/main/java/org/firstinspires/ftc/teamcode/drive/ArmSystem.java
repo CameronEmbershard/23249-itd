@@ -21,6 +21,8 @@ public class ArmSystem extends OpMode {
     final double liftArmDownSpeed = liftArmSpeed;
     final double liftArmHoverPower = 0.5;
 
+    private int hoverPoint;
+
     static final double INCREMENT   = 0.004;     // amount to slew servo each CYCLE_MS cycle
     static final double MAX_POS     =  1;     // Maximum rotational position
     static final double MIN_POS     =  0.15;     // Minimum rotational position
@@ -29,7 +31,7 @@ public class ArmSystem extends OpMode {
     double  positionWrist = MAX_POS; // Start at max position
     double  positionArm = MAX_POS; // Start at max position
 
-    private int hoverPoint = 0;
+
     private int hoverPoint2 = 0;
 
     final int liftArmHighestTicks = -1900;
@@ -85,6 +87,13 @@ public class ArmSystem extends OpMode {
 
     public ArmSystem(Servo servoGrabber){
         this.servoGrabber = servoGrabber;
+    }
+    public void setTargetPosArm(int targetPosition)
+    {
+        motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //set the target hover point to the position found above and move the arm at a set speed to hold it
+        motorLiftArm.setTargetPosition(targetPosition);
+        motorLiftArm.setPower(liftArmHoverPower);
     }
 
     //this is so that java doesn't get mad
