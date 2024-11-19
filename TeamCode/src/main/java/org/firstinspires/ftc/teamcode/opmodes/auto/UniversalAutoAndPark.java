@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
 
-@Autonomous(name = "AutoRedRight")
+@Autonomous(name = "AutoMoveAndPark")
 public class UniversalAutoAndPark extends RobotAuto {
     DcMotor motorFrontRight;
     DcMotor motorBackRight;
