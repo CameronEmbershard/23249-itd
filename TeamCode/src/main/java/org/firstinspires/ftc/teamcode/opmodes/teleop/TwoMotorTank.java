@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -8,16 +8,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-@Disabled//@Teleop(name = "TwoMotorTank")
+@TeleOp(name = "TwoMotorTank")
 public class TwoMotorTank extends OpMode{
 
     DcMotor motorRight;
     DcMotor motorLeft;
-
-
-    DoubleSupplier leftStickY;
-    DoubleSupplier rightStickX;
-    BooleanSupplier bButton;
 
 
     int motorRightForward = 1;
@@ -37,22 +32,12 @@ public class TwoMotorTank extends OpMode{
     @Override
     public void loop()
     {
-        drive();
+
+        drive(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.b);
     }
 
-    public TwoMotorTank(DcMotor motorleft, DcMotor motorRight, DoubleSupplier leftStickY, DoubleSupplier rightStickX, BooleanSupplier bButton){
-        this.motorLeft = motorleft;
-        this.motorRight = motorRight;
-        this.leftStickY = leftStickY;
-        this.rightStickX = rightStickX;
-        this.bButton = bButton;
-    }
 
-    public void drive(){
-
-        double xDir = rightStickX.getAsDouble();
-        double yDir = -leftStickY.getAsDouble();
-        boolean bPressed = bButton.getAsBoolean();
+    public void drive(double xDir, double yDir, boolean bPressed){
 
         double overallPower = Math.sqrt(Math.pow(xDir, 2) + Math.pow(yDir, 2));
         double maxPowerMultiplier = 1 / overallPower;
@@ -105,33 +90,6 @@ public class TwoMotorTank extends OpMode{
                 leftPower = ((yDir * maxPowerMultiplier) - 0.5) * 2;
             }
         }
-
-        if(!bPressed)
-        {
-            motorLeft.setPower(leftPower * overallPower * speedMultiplier * motorLeftForward);
-            motorRight.setPower(rightPower * overallPower * speedMultiplier * motorRightForward);
-        }
-        else
-        {
-            motorLeft.setPower(leftPower * overallPower * slowSpeedMultiplier * motorLeftForward);
-            motorRight.setPower(rightPower * overallPower * slowSpeedMultiplier * motorRightForward);
-        }
-
-    }
-
-    public void drive2(){
-        double xDir = rightStickX.getAsDouble();
-        double yDir = -leftStickY.getAsDouble();
-        boolean bPressed = bButton.getAsBoolean();
-
-        double overallPower = Math.sqrt(Math.pow(xDir, 2) + Math.pow(yDir, 2));
-        double angle = Math.atan2(yDir, xDir);
-
-        // sin(angle+1/4π) * magnitude
-        double leftPower = Math.sin(angle + (1 / (4 * Math.PI)));
-
-        // sin(angle−1/4π) * magnitude
-        double rightPower = Math.sin(angle - (1 / (4 * Math.PI)));
 
         if(!bPressed)
         {
