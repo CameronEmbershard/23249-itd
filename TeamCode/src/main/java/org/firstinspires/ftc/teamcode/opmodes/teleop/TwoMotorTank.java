@@ -79,6 +79,10 @@ public class TwoMotorTank extends OpMode{
         {
             leftPower = xSign;
         }
+        else if (gamepad1.back) {
+            leftPower = 2;
+
+        }
         else
         {
             if(stickRight)
@@ -89,6 +93,7 @@ public class TwoMotorTank extends OpMode{
             {
                 leftPower = ((yDir * maxPowerMultiplier) - 0.5) * 2;
             }
+
         }
 
         if(!bPressed)
