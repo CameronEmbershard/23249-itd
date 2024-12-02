@@ -18,8 +18,9 @@ public class RobotTeleopMain extends OpMode {
     DcMotor motorFrontLeft;
     DcMotor motorBackLeft;
 
+    //init vision systems
     VisionHandler visionSystem;
-    //WebcamName webcam;
+    WebcamName webcam;
 
     //both arms servos and motors
     DcMotor motorLiftArm;
@@ -34,10 +35,6 @@ public class RobotTeleopMain extends OpMode {
     MechanumDrive driveSystem;
     //the arm system(there are two)
     org.firstinspires.ftc.teamcode.drive.ArmSystem ArmSystem;
-
-
-    //private VisionPortal visionPortal;
-
 
     //all this is called when the init button is pressed
     @Override
@@ -54,16 +51,16 @@ public class RobotTeleopMain extends OpMode {
         servoGrabber = hardwareMap.servo.get("servoGrabber");
         servoWrist = hardwareMap.servo.get("servoWrist");
         servoArm = hardwareMap.servo.get("servoArm");
-        //webcam = hardwareMap.get(WebcamName.class, "Webcam 1");
+        webcam = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         //init the drive and arm system
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
         ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2,servoWrist,servoArm);
         //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2, servoArm);
 
+        //init vision
+        visionSystem.init();
 
-        //visionPortal = VisionPortal.easyCreateWithDefaults(
-        //        hardwareMap.get(WebcamName.class, "Webcam 1"))
         //sends a message to driver HUB that all is 'ight
         telemetry.addData("Main","All Systems Online. Here We Go!");
     }
@@ -71,6 +68,9 @@ public class RobotTeleopMain extends OpMode {
     @Override
     public void loop()
     {
+        //run vision
+        visionSystem.loop();
+
         // Drives the robot
         driveSystem.drive(-gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x, gamepad1.right_trigger);
 
