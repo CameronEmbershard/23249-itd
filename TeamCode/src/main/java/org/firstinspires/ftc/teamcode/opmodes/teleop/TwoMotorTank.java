@@ -34,7 +34,7 @@ public class TwoMotorTank extends OpMode{
     }
 
 
-    public void drive(double xDir, double yDir, boolean bPressed, boolean xPressed){
+    synchronized public void drive(double xDir, double yDir, boolean bPressed, boolean xPressed) {
 
         double overallPower = Math.sqrt(Math.pow(xDir, 2) + Math.pow(yDir, 2));
         double maxPowerMultiplier = 1 / overallPower;
@@ -96,8 +96,23 @@ public class TwoMotorTank extends OpMode{
 
         }
         if (xPressed){
-            motorLeft.setPower(leftPower * overallPower * speedMultiplier * motorLeftForward);
-            motorRight.setPower(rightPower * overallPower * speedMultiplier * motorRightForward);
+            motorLeft.setPower(1);
+            motorRight.setPower(1);
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            motorLeft.setPower(-1);
+            motorRight.setPower(-1);
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            motorLeft.setPower(1);
+            motorRight.setPower(1);
+
         }
 
         if(!bPressed)
