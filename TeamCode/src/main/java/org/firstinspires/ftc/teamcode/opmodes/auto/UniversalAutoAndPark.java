@@ -20,7 +20,6 @@ public class UniversalAutoAndPark extends RobotAuto {
     DcMotor motorLiftArm;
     DcMotor motorLiftArm2;
     Servo servoGrabber;
-    Servo servoWrist;
     Servo servoArm;
 
     ElapsedTime timer;
@@ -39,13 +38,12 @@ public class UniversalAutoAndPark extends RobotAuto {
         motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
         motorLiftArm2 = hardwareMap.dcMotor.get("motorLiftArm2");
         servoGrabber = hardwareMap.servo.get("servoGrabber");
-        servoWrist = hardwareMap.servo.get("servoWrist");
         servoArm = hardwareMap.servo.get("servoArm");
 
         //webcam = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2,servoWrist,servoArm);
+        ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2,servoArm);
         //visionSystem = new VisionHandler(webcam, false);
 
         timer = new ElapsedTime();

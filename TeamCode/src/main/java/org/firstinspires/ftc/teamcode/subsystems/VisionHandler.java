@@ -15,21 +15,18 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import java.util.ArrayList;
 
 public class VisionHandler extends OpMode {
-    static final int STREAM_WIDTH = 1920; // modify for your camera
-    static final int STREAM_HEIGHT = 1080; // modify for your camera
+    static final int STREAM_WIDTH = 640; // modify for your camera
+    static final int STREAM_HEIGHT = 480; // modify for your camera
     OpenCvWebcam webcam;
     SamplePipeline pipeline;
-    @Override
-    public void init() {
-        //get the ID of the camera
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+    public void init(){
 
-        //create the webcam object
-        WebcamName webcamName = null;
-        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1"); // put your camera's name here
+    }
+
+    public void init(WebcamName webcamName) {
 
         //some setup stuff I don't understand
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(webcamName, 0);
         pipeline = new SamplePipeline();
         webcam.setPipeline(pipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -42,8 +39,6 @@ public class VisionHandler extends OpMode {
 
             @Override
             public void onError(int errorCode) {
-                telemetry.addData("Camera Failed","");
-                telemetry.update();
             }
         });
 
@@ -51,10 +46,11 @@ public class VisionHandler extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("Image Analysis:",pipeline.getAnalysis());
-        telemetry.update();
     }
 
+    public int getSide(){
+        return pipeline.getAnalysis();
+    }
 
 }
 
@@ -62,14 +58,12 @@ class SamplePipeline extends OpenCvPipeline {
 
 
     //create the Images storing variables required for vision
-    Mat YCrCb = new Mat();
-    Mat Y = new Mat();
     Mat hsvMat = new Mat();
     Mat binaryMat = new Mat();
 
     //upper and lower color to be found
     Scalar lower = new Scalar(0,0,0);
-    Scalar upper = new Scalar(255,255,255);
+    Scalar upper = new Scalar(255,0,0);
 
     int location = 0; // output
 
@@ -84,8 +78,6 @@ class SamplePipeline extends OpenCvPipeline {
 
     @Override
     public Mat processFrame(Mat input) {
-        System.out.println("processing requested");
-
         //turn the image into a coloring style thats easier to process
         Imgproc.cvtColor(input,hsvMat,Imgproc.COLOR_RGB2HSV);
 

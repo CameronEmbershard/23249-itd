@@ -19,14 +19,12 @@ public class RobotTeleopMain extends OpMode {
     DcMotor motorBackLeft;
 
     //init vision systems
-    VisionHandler visionSystem;
-    WebcamName webcam;
+    VisionHandler visionSystem = new VisionHandler();
 
     //both arms servos and motors
     DcMotor motorLiftArm;
     DcMotor motorLiftArm2;
     Servo servoGrabber;
-    Servo servoWrist;
     Servo servoArm;
 
 
@@ -39,6 +37,7 @@ public class RobotTeleopMain extends OpMode {
     //all this is called when the init button is pressed
     @Override
     public void init() {
+
         //setup the drive motors
         motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
@@ -49,17 +48,15 @@ public class RobotTeleopMain extends OpMode {
         motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
         motorLiftArm2 = hardwareMap.dcMotor.get("motorLiftArm2");
         servoGrabber = hardwareMap.servo.get("servoGrabber");
-        servoWrist = hardwareMap.servo.get("servoWrist");
         servoArm = hardwareMap.servo.get("servoArm");
-        webcam = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         //init the drive and arm system
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2,servoWrist,servoArm);
+        ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2,servoArm);
         //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2, servoArm);
 
         //init vision
-        visionSystem.init();
+        visionSystem.init(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
         //sends a message to driver HUB that all is 'ight
         telemetry.addData("Main","All Systems Online. Here We Go!");
@@ -68,9 +65,6 @@ public class RobotTeleopMain extends OpMode {
     @Override
     public void loop()
     {
-        //run vision
-        visionSystem.loop();
-
         // Drives the robot
         driveSystem.drive(-gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x, gamepad1.right_trigger);
 
@@ -82,15 +76,12 @@ public class RobotTeleopMain extends OpMode {
         // controls the arm
         ArmSystem.ControlArm(gamepad2.y, gamepad2.a, gamepad2.x, gamepad2.dpad_left);
 
-        // controls the wrist
-        ArmSystem.ControlWrist(gamepad2.dpad_up, gamepad2.dpad_down, gamepad2.x, gamepad2.dpad_left);
-
         //sends the data from the arm-system to the driver HUB
         telemetry.addData("Hover",ArmSystem.getHoverPoint());
         telemetry.addData("Hover2",ArmSystem.getHoverPoint2());
         telemetry.addData("Grabber",ArmSystem.getPositionGrabber());
-        telemetry.addData("Wrist",ArmSystem.getPositionWrist());
         telemetry.addData("Arm",ArmSystem.getPositionArm());
+        telemetry.addData("Vision", visionSystem.getSide());
         //call a telemetry update to push new data to driver HUB
         telemetry.update();
     }

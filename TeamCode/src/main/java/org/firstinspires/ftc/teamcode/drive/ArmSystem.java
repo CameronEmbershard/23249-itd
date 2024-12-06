@@ -13,7 +13,6 @@ public class ArmSystem extends OpMode {
     DcMotor motorLiftArm;
     DcMotor motorLiftArm2;
     Servo servoGrabber;
-    Servo servoWrist;
     Servo servoArm;
 
     final double liftArmSpeed = 0.5;
@@ -28,7 +27,6 @@ public class ArmSystem extends OpMode {
     static final double MIN_POS     =  0.15;     // Minimum rotational position
 
     double  positionGrabber = MAX_POS; // Start at max position
-    double  positionWrist = MAX_POS; // Start at max position
     double  positionArm = MAX_POS; // Start at max position
 
 
@@ -51,11 +49,6 @@ public class ArmSystem extends OpMode {
         return positionGrabber;
     }
 
-    //get the Wrist's position so it can be passed to main for telemetry
-    public double getPositionWrist(){
-        return positionWrist;
-    }
-
     //get the Arm's position so it can be passed to main for telemetry
     public double getPositionArm(){
         return positionArm;
@@ -66,16 +59,14 @@ public class ArmSystem extends OpMode {
         //if everything explodes do this
         //motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
         servoGrabber = hardwareMap.servo.get("servoGrabber");
-        servoWrist.setPosition(MIN_POS);
         servoGrabber.setPosition(MAX_POS);
     }
 
     //this is called in main and setups all the variables for this script
-    public ArmSystem(DcMotor motorLiftArm, Servo servoGrabber, DcMotor motorLiftArm2, Servo servoWrist, Servo servoArm){
+    public ArmSystem(DcMotor motorLiftArm, Servo servoGrabber, DcMotor motorLiftArm2, Servo servoArm){
         this.motorLiftArm = motorLiftArm;
         this.motorLiftArm2 = motorLiftArm2;
         this.servoGrabber = servoGrabber;
-        this.servoWrist = servoWrist;
         this.servoArm = servoArm;
 
         motorLiftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -125,26 +116,6 @@ public class ArmSystem extends OpMode {
         servoGrabber.setPosition(positionGrabber);
 
 
-    }
-
-
-    //controls the wrist. Takes in an up(D-pad Up), down(D-Pad Down), and variable to go to half position(Binded to X-button)
-    public void ControlWrist(boolean Up, boolean Down, boolean Half, boolean half2){
-        // if D-Pad Up being pressed increses the servo position by increment
-        if (Up) {
-            // Keep stepping up until we hit the max value.
-            positionWrist += INCREMENT ;
-        }
-        //if D-Pad down being pressed decrease the servo position by increment
-        else if(Down){
-            // Keep stepping down until we hit the min value.
-            positionWrist -= INCREMENT ;
-        }
-        //if x-button being pushed move to half max position
-        if(Half){   positionWrist = 0.17; }
-        if(half2){   positionWrist = 0.52; }
-        //send new position to servo
-        servoWrist.setPosition(positionWrist);
     }
 
     //controls the Arm. Takes in an up(Y button), down(A button), and variable to go to half position(Binded to X-button)
@@ -226,10 +197,10 @@ public class ArmSystem extends OpMode {
             }
             else
             {
-                //unlike above we have to use the encoder to be able to run to a set position
-                motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 //set the target hover point to the position found above and move the arm at a set speed to hold it
                 motorLiftArm.setTargetPosition(hoverPoint);
+                //unlike above we have to use the encoder to be able to run to a set position
+                motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motorLiftArm.setPower(liftArmHoverPower);
             }
     }
