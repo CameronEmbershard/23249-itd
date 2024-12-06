@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
 
 @Autonomous(name = "AutoMoveAndPark")
+
 public class UniversalAutoAndPark extends RobotAuto {
     DcMotor motorFrontRight;
     DcMotor motorBackRight;
@@ -48,7 +49,7 @@ public class UniversalAutoAndPark extends RobotAuto {
 
         timer = new ElapsedTime();
 
-        AutoDriveForward autoSystem = new AutoDriveForward(timer, driveSystem, this, ArmSystem);
+        AutoDriveAndScore autoSystem = new AutoDriveAndScore(timer, driveSystem, ArmSystem, this);
 
         addTelemetry("Completed Init:", true);
 
