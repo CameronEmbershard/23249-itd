@@ -30,17 +30,18 @@ public class TwoMotorTank extends OpMode{
     @Override
     public void loop()
     {
-        drive(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.b);
+        drive(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.b, gamepad1.x);
     }
 
 
-    public void drive(double xDir, double yDir, boolean bPressed){
+    synchronized public void drive(double xDir, double yDir, boolean bPressed, boolean xPressed) {
 
         double overallPower = Math.sqrt(Math.pow(xDir, 2) + Math.pow(yDir, 2));
         double maxPowerMultiplier = 1 / overallPower;
 
         double xSign = Math.signum(xDir);
         double ySign = Math.signum(yDir);
+
 
         if(xSign == 0){
             xSign = 1;
@@ -76,6 +77,7 @@ public class TwoMotorTank extends OpMode{
         {
             leftPower = xSign;
         }
+
         else
         {
             if(stickRight)
@@ -86,6 +88,31 @@ public class TwoMotorTank extends OpMode{
             {
                 leftPower = ((yDir * maxPowerMultiplier) - 0.5) * 2;
             }
+            if (gamepad1.cross) {
+            leftPower = 2;
+
+
+        }
+
+        }
+        if (xPressed){
+            motorLeft.setPower(1);
+            motorRight.setPower(1);
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            motorLeft.setPower(-1);
+            motorRight.setPower(-1);
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            motorLeft.setPower(1);
+            motorRight.setPower(1);
+
         }
 
         if(!bPressed)
