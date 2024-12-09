@@ -15,14 +15,14 @@ public class ArmSystem extends OpMode {
     Servo servoGrabber;
     Servo servoArm;
 
-    final double liftArmSpeed = 0.5;
+    final double liftArmSpeed = 1;
     final double liftArmUpSpeed = liftArmSpeed * -1;
     final double liftArmDownSpeed = liftArmSpeed;
     final double liftArmHoverPower = 0.5;
 
     private int hoverPoint;
 
-    static final double INCREMENT   = 0.004;     // amount to slew servo each CYCLE_MS cycle
+    static final double INCREMENT   = 0.02;     // amount to slew servo each CYCLE_MS cycle
     static final double MAX_POS     =  1;     // Maximum rotational position
     static final double MIN_POS     =  0.15;     // Minimum rotational position
 
@@ -95,25 +95,16 @@ public class ArmSystem extends OpMode {
     //controls the gripper takes in a boolean(binded to B on gpad2 in main)
     public void ControlGripper(boolean Close){
         //if the B-button is not being pressed close the gripper
-        if (!Close) {
-            // Keep stepping up until we hit the max value.
-            positionGrabber += INCREMENT ;
-            if (positionGrabber >= MAX_POS ) {
-                positionGrabber = MAX_POS;
-                Close = !Close;   // Switch ramp direction
-            }
+        if (Close) {
+            //send grabber to max position
+            servoGrabber.setPosition(MAX_POS);
         }
         //if the B-Button IS being pressed open the gripper
         else {
-            // Keep stepping down until we hit the min value.
-            positionGrabber -= INCREMENT ;
-            if (positionGrabber <= MIN_POS ) {
-                positionGrabber = MIN_POS;
-                Close = !Close;  // Switch ramp direction
-            }
+            //send grabber to min position
+            servoGrabber.setPosition(MIN_POS);
         }
-        //send the new position to the grabber
-        servoGrabber.setPosition(positionGrabber);
+
 
 
     }
