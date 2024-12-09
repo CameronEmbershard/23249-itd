@@ -95,25 +95,7 @@ public class TwoMotorTank extends OpMode{
         }
 
         }
-        if (xPressed){
-            motorLeft.setPower(1);
-            motorRight.setPower(1);
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            motorLeft.setPower(-1);
-            motorRight.setPower(-1);
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            motorLeft.setPower(1);
-            motorRight.setPower(1);
 
-        }
 
         if(!bPressed)
         {
