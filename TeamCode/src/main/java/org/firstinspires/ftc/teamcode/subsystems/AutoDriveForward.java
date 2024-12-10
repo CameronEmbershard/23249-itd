@@ -47,22 +47,26 @@ public class AutoDriveForward {
 
         motorLeft.setPower(0.5);
         motorRight.setPower(0.5);
-        autoMain.sleep(150);
+        autoMain.sleep(1800);
 
         motorLeft.setPower(-0.5);
         motorRight.setPower(-0.5);
 
         autoMain.sleep(1500);
 
-        motorLeft.setPower(0.2);
-        motorRight.setPower(0.2);
+        motorLeft.setPower(-0.4);
+        motorRight.setPower(0.4);
 
         autoMain.sleep(1800);
 
-        motorLeft.setPower(0.2);
-        motorRight.setPower(0.2);
+        motorLeft.setPower(0.4);
+        motorRight.setPower(-0.4);
         autoMain.sleep(150);
-        motorLeft.setPower(0.5);
-        motorRight.setPower(0.5);
+        motorLeft.setPower(0.4);
+        motorRight.setPower(0.4);
+        autoMain.sleep(1500);
+        motorLeft.setPower(-0.4);
+        motorRight.setPower(0.4);
+
     }
 }
