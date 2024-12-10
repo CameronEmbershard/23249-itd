@@ -19,6 +19,11 @@ public class TwoMotorTank extends OpMode{
     final double speedMultiplier = 0.5;
     final double slowSpeedMultiplier = 0.1;
 
+    final double wheelDiameter = 96;
+
+    // The number of ticks that represent a full rotation
+    final double ticksPerRotation = 537.6;
+
 
 
     @Override
@@ -30,11 +35,11 @@ public class TwoMotorTank extends OpMode{
     @Override
     public void loop()
     {
-        drive(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.b, gamepad1.x);
+        drive(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.b, gamepad1.x, gamepad1.y);
     }
 
 
-    synchronized public void drive(double xDir, double yDir, boolean bPressed, boolean xPressed) {
+    synchronized public void drive(double xDir, double yDir, boolean bPressed, boolean xPressed, boolean yPressed) {
 
         double overallPower = Math.sqrt(Math.pow(xDir, 2) + Math.pow(yDir, 2));
         double maxPowerMultiplier = 1 / overallPower;
@@ -107,6 +112,15 @@ public class TwoMotorTank extends OpMode{
             motorLeft.setPower(leftPower * overallPower * slowSpeedMultiplier * motorLeftForward);
             motorRight.setPower(rightPower * overallPower * slowSpeedMultiplier * motorRightForward);
         }
+        if (yPressed)
+        {
+            motorLeft.setTargetPosition((int)ticksPerRotation*100);
+            motorRight.setTargetPosition((int)ticksPerRotation*-100);
+            motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorLeft.setPower(1);
+            motorRight.setPower(1);
 
+        }
     }
 }
