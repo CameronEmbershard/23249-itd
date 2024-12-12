@@ -45,6 +45,9 @@ public class AutoDriveForward {
     public void driveAutonomously() {
         timer.reset();
 
+        motorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         motorLeft.setPower(0.5);
         motorRight.setPower(-0.5);
         autoMain.sleep(1800);
@@ -54,21 +57,22 @@ public class AutoDriveForward {
 
         autoMain.sleep(1800);
 
-        motorLeft.setPower(0.4);
-        motorRight.setPower(0.4);
-        autoMain.sleep(1000);
+        motorLeft.setPower(0.2);
+        motorRight.setPower(0.2);
+        autoMain.sleep(300);
         motorLeft.setPower(0.4);
         motorRight.setPower(-0.4);
         autoMain.sleep(500);
         motorLeft.setPower(-0.4);
         motorRight.setPower(-0.4);
         autoMain.sleep(1500);
-        motorLeft.setPower(0.6);
-        motorRight.setPower(-0.6);
-        autoMain.sleep(1500);
+        motorLeft.setPower(0.3);
+        motorRight.setPower(-0.3);
+        autoMain.sleep(145);
         motorLeft.setPower(0.4);
         motorRight.setPower(0.4);
         autoMain.sleep(150);
+
 
     }
 }
