@@ -62,16 +62,13 @@ public class AutoDriveForward {
         autoMain.sleep(300);
         motorLeft.setPower(0.4);
         motorRight.setPower(-0.4);
-        autoMain.sleep(500);
+        autoMain.sleep(800);
         motorLeft.setPower(-0.4);
         motorRight.setPower(-0.4);
-        autoMain.sleep(1500);
+        autoMain.sleep(1800);
         motorLeft.setPower(0.3);
         motorRight.setPower(-0.3);
-        autoMain.sleep(145);
-        motorLeft.setPower(0.4);
-        motorRight.setPower(0.4);
-        autoMain.sleep(150);
+        autoMain.sleep(900);
 
 
     }
