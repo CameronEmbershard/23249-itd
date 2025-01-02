@@ -25,7 +25,7 @@ public class AutoDriveAndScore {
 
     public void driveAutonomously() {
         armSystem.setTargetPosArm(4384);
-        armSystem.ControlGripper(false);
+        armSystem.ControlGripper(true, false);
         driveSystem.moveLeft(1447);
         driveSystem.rotateLeft(100);
     }

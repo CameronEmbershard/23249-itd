@@ -1,11 +1,11 @@
-
 package org.firstinspires.ftc.teamcode.subsystems;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcode.opmodes.auto.AutoDance;
 
-
-public class AutoDriveForward {
+public class TankAutoMain {
     DcMotor motorRight;
     DcMotor motorLeft;
     // GoBilda Mecanum Wheel Diameter in Millimeters
@@ -13,24 +13,16 @@ public class AutoDriveForward {
 
     // The number of ticks that represent a full rotation
     final double ticksPerRotation = 537.6;
-    final double driveTime = 8.0;
-    final double drivePower = 0.1;
-    int motorRightForward = 1;
-    int motorLeftForward = -1;
-
-    final double speedMultiplier = 0.5;
-    final double slowSpeedMultiplier = 0.1;
-
 
     ElapsedTime timer;
 
-    AutoDance autoMain;
+    TankAutoMain autoMain;
 
 
 
     double ticksPerMillimeter;
 
-    public AutoDriveForward(ElapsedTime timer, AutoDance autoMain, DcMotor motorRight, DcMotor motorLeft){
+    public TankAutoMain(ElapsedTime timer, TankAutoMain autoMain, DcMotor motorRight, DcMotor motorLeft){
         this.timer = timer;
 
         this.autoMain = autoMain;
@@ -48,28 +40,20 @@ public class AutoDriveForward {
         motorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        // Motor goes BRRRRRRRRRRRRRRRR, oh, you don't know what karlson is? (gibberish noises)
+        // also this is just a break in the lines for my sanity {;
+
         motorLeft.setPower(0.5);
         motorRight.setPower(-0.5);
         autoMain.sleep(1800);
 
         motorLeft.setPower(-0.4);
         motorRight.setPower(-0.4);
-
-        autoMain.sleep(1800);
-
-        motorLeft.setPower(0.2);
-        motorRight.setPower(0.2);
-        autoMain.sleep(300);
-        motorLeft.setPower(0.4);
-        motorRight.setPower(-0.4);
-        autoMain.sleep(800);
-        motorLeft.setPower(-0.4);
-        motorRight.setPower(-0.4);
-        autoMain.sleep(1800);
-        motorLeft.setPower(0.3);
-        motorRight.setPower(-0.3);
-        autoMain.sleep(900);
-
+        autoMain.sleep(100);
 
     }
+
+    private void sleep(int i) {
+    }
+
 }

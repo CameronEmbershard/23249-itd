@@ -93,18 +93,17 @@ public class ArmSystem extends OpMode {
 
 
     //controls the gripper takes in a boolean(binded to B on gpad2 in main)
-    public void ControlGripper(boolean Close){
+    public void ControlGripper(boolean Close, boolean Open){
         //if the B-button is not being pressed close the gripper
         if (Close) {
             //send grabber to max position
             servoGrabber.setPosition(MAX_POS);
         }
-        //if the B-Button IS being pressed open the gripper
-        else {
-            //send grabber to min position
+        //hehehehehehehehehehehehehehe i've meddled with code here (:< i am the code goblin
+
+        if (Open){
             servoGrabber.setPosition(MIN_POS);
         }
-
 
 
     }
@@ -127,15 +126,14 @@ public class ArmSystem extends OpMode {
         }
         //if x-button being pushed move to half max position
         //send new position to servo
+        servoArm.setPosition(positionArm);
         if(Half){
             servoArm.setPosition(0.63);
         }
-        else if(half2){
-            servoArm.setPosition(0.15);
+        if(half2){
+            servoArm.setPosition(1);
         }
-        else{
-            servoArm.setPosition(positionArm);
-        }
+
     }
 
     //controls the second viper-slide takes in a move up and down command(binded to right-bumper and right-trigger)

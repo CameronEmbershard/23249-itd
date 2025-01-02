@@ -71,7 +71,7 @@ public class RobotTeleopMain extends OpMode {
         //controls both viper-slides and the gripper
         ArmSystem.restrictedControlArmLift(gamepad2.left_trigger, gamepad2.left_bumper);
         ArmSystem.restrictedControlArmLift2(gamepad2.right_bumper, gamepad2.right_trigger);
-        ArmSystem.ControlGripper(gamepad2.b);
+        ArmSystem.ControlGripper(gamepad2.dpad_down,gamepad2.dpad_up );
 
         // controls the arm
         ArmSystem.ControlArm(gamepad2.y, gamepad2.a, gamepad2.x, gamepad2.dpad_left);

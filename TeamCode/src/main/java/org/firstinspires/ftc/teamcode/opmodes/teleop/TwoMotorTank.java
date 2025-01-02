@@ -114,8 +114,8 @@ public class TwoMotorTank extends OpMode{
         }
         if (yPressed)
         {
-            motorLeft.setTargetPosition((int)ticksPerRotation*100);
-            motorRight.setTargetPosition((int)ticksPerRotation*-100);
+            motorLeft.setTargetPosition((int)ticksPerRotation*30000);
+            motorRight.setTargetPosition((int)ticksPerRotation*-30000);
             motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motorLeft.setPower(1);
