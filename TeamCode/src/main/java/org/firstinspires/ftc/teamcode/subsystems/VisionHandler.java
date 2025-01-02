@@ -92,7 +92,7 @@ class SamplePipeline extends OpenCvPipeline {
         // process the pixel value for each rectangle  (255 = W, 0 = B)
         for (int i = (int) topLeft1.x; i <= bottomRight1.x; i++) {
             for (int j = (int) topLeft1.y; j <= bottomRight1.y; j++) {
-                if (binaryMat.get(i, j)[0] == 255) {
+                if (binaryMat.get(i, j)[0] >= 50) {
                     w1++;
                 }
             }
@@ -100,7 +100,7 @@ class SamplePipeline extends OpenCvPipeline {
 
         for (int i = (int) topLeft2.x; i <= bottomRight2.x; i++) {
             for (int j = (int) topLeft2.y; j <= bottomRight2.y; j++) {
-                if (binaryMat.get(i, j)[0] == 255) {
+                if (binaryMat.get(i, j)[0] >= 50) {
                     w2++;
                 }
             }
