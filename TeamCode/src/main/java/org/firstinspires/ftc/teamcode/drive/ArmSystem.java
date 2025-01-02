@@ -24,7 +24,7 @@ public class ArmSystem extends OpMode {
 
     static final double INCREMENT   = 0.02;     // amount to slew servo each CYCLE_MS cycle
     static final double MAX_POS     =  1;     // Maximum rotational position
-    static final double MIN_POS     =  0.15;     // Minimum rotational position
+    static final double MIN_POS     =  0;     // Minimum rotational position
 
     double  positionGrabber = MAX_POS; // Start at max position
     double  positionArm = MAX_POS; // Start at max position
