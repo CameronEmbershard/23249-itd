@@ -126,12 +126,14 @@ public class ArmSystem extends OpMode {
         }
         //if x-button being pushed move to half max position
         //send new position to servo
-        servoArm.setPosition(positionArm);
         if(Half){
             servoArm.setPosition(0.63);
         }
-        if(half2){
+        else if(half2){
             servoArm.setPosition(1);
+        }
+        else{
+            servoArm.setPosition(positionArm);
         }
 
     }
