@@ -51,7 +51,9 @@ public class UniversalAutoAndPark extends RobotAuto {
 
         AutoDriveAndScore autoSystem = new AutoDriveAndScore(timer, driveSystem, ArmSystem, this);
 
-        addTelemetry("Completed Init:", true);
+        telemetry.addData("Completed Init:", true);
+
+        telemetry.update();
 
         waitForStart();
 
