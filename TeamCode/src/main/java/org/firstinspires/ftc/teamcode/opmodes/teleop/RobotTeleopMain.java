@@ -66,7 +66,7 @@ public class RobotTeleopMain extends OpMode {
     public void loop()
     {
         // Drives the robot
-        driveSystem.drive(-gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x, gamepad1.right_trigger);
+        driveSystem.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x, gamepad1.right_trigger);
 
         //controls both viper-slides and the gripper
         ArmSystem.restrictedControlArmLift(gamepad2.left_trigger, gamepad2.left_bumper);
@@ -74,7 +74,7 @@ public class RobotTeleopMain extends OpMode {
         ArmSystem.ControlGripper(gamepad2.dpad_down,gamepad2.dpad_up );
 
         // controls the arm
-        ArmSystem.ControlArm(gamepad2.y, gamepad2.a, gamepad2.x, gamepad2.dpad_left);
+        ArmSystem.ControlArm(gamepad2.a, gamepad2.y, gamepad2.x, gamepad2.dpad_left);
 
         //sends the data from the arm-system to the driver HUB
         telemetry.addData("Hover",ArmSystem.getHoverPoint());
