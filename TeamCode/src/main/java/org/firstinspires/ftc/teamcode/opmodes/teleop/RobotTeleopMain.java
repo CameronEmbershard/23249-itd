@@ -25,6 +25,7 @@ public class RobotTeleopMain extends OpMode {
     DcMotor motorLiftArm;
     DcMotor motorLiftArm2;
     Servo servoGrabber;
+    Servo servoGrabber2;
     Servo servoArm;
 
 
@@ -48,11 +49,12 @@ public class RobotTeleopMain extends OpMode {
         motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
         motorLiftArm2 = hardwareMap.dcMotor.get("motorLiftArm2");
         servoGrabber = hardwareMap.servo.get("servoGrabber");
+        servoGrabber2 = hardwareMap.servo.get("servoGrabber2");
         servoArm = hardwareMap.servo.get("servoArm");
 
         //init the drive and arm system
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2,servoArm);
+        ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, servoGrabber2, motorLiftArm2,servoArm);
         //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorLiftArm2, servoArm);
 
         //init vision
