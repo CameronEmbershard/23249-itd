@@ -13,6 +13,7 @@ public class ArmSystem extends OpMode {
     DcMotor motorLiftArm;
     DcMotor motorLiftArm2;
     Servo servoGrabber;
+    Servo servoGrabber2;
     Servo servoArm;
 
     final double liftArmSpeed = 1;
@@ -59,15 +60,17 @@ public class ArmSystem extends OpMode {
         //if everything explodes do this
         //motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
         servoGrabber = hardwareMap.servo.get("servoGrabber");
+        servoGrabber2 = hardwareMap.servo.get("servoGrabber2");
         servoGrabber.setPosition(MAX_POS);
     }
 
     //this is called in main and setups all the variables for this script
-    public ArmSystem(DcMotor motorLiftArm, Servo servoGrabber, DcMotor motorLiftArm2, Servo servoArm){
+    public ArmSystem(DcMotor motorLiftArm, Servo servoGrabber, Servo servoGrabber2, DcMotor motorLiftArm2, Servo servoArm){
         this.motorLiftArm = motorLiftArm;
         this.motorLiftArm2 = motorLiftArm2;
         this.servoGrabber = servoGrabber;
         this.servoArm = servoArm;
+        this.servoGrabber2 = servoGrabber2;
 
         motorLiftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLiftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -98,11 +101,13 @@ public class ArmSystem extends OpMode {
         if (Close) {
             //send grabber to max position
             servoGrabber.setPosition(MAX_POS);
+            servoGrabber2.setPosition(MIN_POS);
         }
         //hehehehehehehehehehehehehehe i've meddled with code here (:< i am the code goblin
 
         if (Open){
             servoGrabber.setPosition(MIN_POS);
+            servoGrabber2.setPosition(MIN_POS);
         }
 
 
