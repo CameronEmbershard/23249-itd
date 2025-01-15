@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.drive.ArmSystem;
+import org.firstinspires.ftc.teamcode.Drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.VisionHandler;
 
@@ -33,7 +33,7 @@ public class RobotTeleopMain extends OpMode {
     //drive system(the one in subsystems)
     MechanumDrive driveSystem;
     //the arm system(there are two)
-    org.firstinspires.ftc.teamcode.drive.ArmSystem ArmSystem;
+    org.firstinspires.ftc.teamcode.Drive.ArmSystem ArmSystem;
 
     //all this is called when the init button is pressed
     @Override
