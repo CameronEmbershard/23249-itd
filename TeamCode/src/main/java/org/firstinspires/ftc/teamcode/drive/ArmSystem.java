@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive;
+package org.firstinspires.ftc.teamcode.Drive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -11,29 +11,36 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ArmSystem extends OpMode {
 
     DcMotor motorLiftArm;
-    DcMotor motorLiftArm2;
+    DcMotor motorRotateArm;
     Servo servoGrabber;
     Servo servoGrabber2;
-    Servo servoArm;
+
+    //Servo servoArm;
 
     final double liftArmSpeed = 1;
     final double liftArmUpSpeed = liftArmSpeed * -1;
     final double liftArmDownSpeed = liftArmSpeed;
     final double liftArmHoverPower = 0.5;
 
+    final double rotateArmSpeed = 0.05;
+    final double rotateArmUpSpeed = rotateArmSpeed;
+    final double rotateArmDownSpeed = -0.05;
+    final double liftArmHoverPower2 = 0.01;
+
     private int hoverPoint;
+    private int hoverPoint2 = 0;
 
     static final double INCREMENT   = 0.02;     // amount to slew servo each CYCLE_MS cycle
     static final double MAX_POS     =  1;     // Maximum rotational position
     static final double MIN_POS     =  0;     // Minimum rotational position
 
-    double  positionGrabber = MAX_POS; // Start at max position
     double  positionArm = MAX_POS; // Start at max position
+    double  positionGrabber = MAX_POS; // Start at max position
+    double  positionGrabber2 = MIN_POS; // Start at max position
 
 
-    private int hoverPoint2 = 0;
 
-    final int liftArmHighestTicks = -1900;
+    //final int liftArmHighestTicks = -1900;
 
     //get the hoverPoint so it can be passed to main for telemetry
     public int getHoverPoint(){
@@ -50,6 +57,11 @@ public class ArmSystem extends OpMode {
         return positionGrabber;
     }
 
+    //get the Grabber's position so it can be passed to main for telemetry
+    public double getPositionGrabber2(){
+        return positionGrabber2;
+    }
+
     //get the Arm's position so it can be passed to main for telemetry
     public double getPositionArm(){
         return positionArm;
@@ -62,20 +74,21 @@ public class ArmSystem extends OpMode {
         servoGrabber = hardwareMap.servo.get("servoGrabber");
         servoGrabber2 = hardwareMap.servo.get("servoGrabber2");
         servoGrabber.setPosition(MAX_POS);
+        servoGrabber2.setPosition(MIN_POS);
     }
 
     //this is called in main and setups all the variables for this script
-    public ArmSystem(DcMotor motorLiftArm, Servo servoGrabber, Servo servoGrabber2, DcMotor motorLiftArm2, Servo servoArm){
+    public ArmSystem(DcMotor motorLiftArm, DcMotor motorRotateArm, Servo servoGrabber, Servo servoGrabber2){
         this.motorLiftArm = motorLiftArm;
-        this.motorLiftArm2 = motorLiftArm2;
+        this.motorRotateArm = motorRotateArm;
         this.servoGrabber = servoGrabber;
-        this.servoArm = servoArm;
         this.servoGrabber2 = servoGrabber2;
+        //this.servoArm = servoArm;
 
         motorLiftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLiftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorLiftArm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLiftArm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorRotateArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorRotateArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
 
@@ -103,11 +116,11 @@ public class ArmSystem extends OpMode {
             servoGrabber.setPosition(MAX_POS);
             servoGrabber2.setPosition(MIN_POS);
         }
-        //hehehehehehehehehehehehehehe i've meddled with code here (:< i am the code goblin
+        //CIC
 
         if (Open){
             servoGrabber.setPosition(MIN_POS);
-            servoGrabber2.setPosition(MIN_POS);
+            servoGrabber2.setPosition(MAX_POS);
         }
 
 
@@ -131,7 +144,7 @@ public class ArmSystem extends OpMode {
         }
         //if x-button being pushed move to half max position
         //send new position to servo
-        if(Half){
+        /*if(Half){
             servoArm.setPosition(0.63);
         }
         else if(half2){
@@ -139,34 +152,40 @@ public class ArmSystem extends OpMode {
         }
         else{
             servoArm.setPosition(positionArm);
-        }
+        }*/
 
     }
 
-    //controls the second viper-slide takes in a move up and down command(binded to right-bumper and right-trigger)
-    public void restrictedControlArmLift2(boolean moveArmUp, double moveArmDown) {
-
-        //if the right-bumper being pressed turn the slide on at a set power
-        if (moveArmUp) {
-            motorLiftArm2.setPower(liftArmUpSpeed);
-            motorLiftArm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+    //controls the rotating arm in a rotate up and down command(binded to right-bumper and right-trigger)
+    public void restrictedControlArmRotate(double moveArmUp, double moveArmDown) {
+        int hoverPoint2Chk;
+        //if the right-trigger being pressed turn the slide on at a set power
+        if (moveArmUp != 0.0) {
+            //motorRotateArm.setMode(DcMotor.RunMode.RUN_WITH_ENCODER);
+            motorRotateArm.setTargetPosition(220);
+            motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorRotateArm.setPower(rotateArmUpSpeed);
+            //sleep(10);
             //get the current position of the motor/viper-slide for the hover code
-            hoverPoint2 = motorLiftArm2.getCurrentPosition();
-            //if the right-trigger is being pressed turn the slide on at a set power level
+            hoverPoint2 = motorRotateArm.getCurrentPosition();
+            //if the right-trigger is being pressed turn the rotate arm motor on at a set power level
             //the right-trigger outputs a double value where 1 is being pressed fully and 0 is not being pressed
-        } else if (moveArmDown != 0.0) {
-            motorLiftArm2.setPower(liftArmDownSpeed);
-            motorLiftArm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        } else if (moveArmDown != 0.0) { // right bumper pressed
+           motorRotateArm.setTargetPosition(10);
+            motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorRotateArm.setPower(rotateArmDownSpeed);
 
-            //get the current position of the motor/viper-slide for the hover code
-            hoverPoint2 = motorLiftArm2.getCurrentPosition();
+            //get the current position of the rotating arm for the hover code
+            hoverPoint2 = motorRotateArm.getCurrentPosition();
         } else {
             //set the target hover point to the position found above and move the arm at a set speed to hold it
-            motorLiftArm2.setTargetPosition(hoverPoint2);
-            motorLiftArm2.setPower(liftArmHoverPower);
-            //unlike above we have to use the encoder to be able to run to a set position
-            motorLiftArm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            hoverPoint2Chk = motorRotateArm.getCurrentPosition();
+            if(hoverPoint2Chk != hoverPoint2) {
+                motorRotateArm.setTargetPosition(hoverPoint2);
+                //unlike above we have to use the encoder to be able to run to a set position
+                motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motorRotateArm.setPower(liftArmHoverPower2);
+            }
 
         }
     }
