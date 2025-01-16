@@ -18,10 +18,10 @@ public class RobotAutoBluePixelSide extends RobotAuto {
 
 
     DcMotor motorLiftArm;
-    DcMotor motorLiftArm2;
+    DcMotor motorRotateArm;
     Servo servoGrabber;
     Servo servoGrabber2;
-    Servo servoArm;
+    //Servo servoArm;
 
     ElapsedTime timer;
     AutoDriveAndScore autoSystem;
@@ -37,13 +37,14 @@ public class RobotAutoBluePixelSide extends RobotAuto {
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
         motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
-        motorLiftArm2 = hardwareMap.dcMotor.get("motorLiftArm2");
+        motorRotateArm = hardwareMap.dcMotor.get("motorRotateArm");
         servoGrabber = hardwareMap.servo.get("servoGrabber");
         servoGrabber2 = hardwareMap.servo.get("servoGrabber2");
-        servoArm = hardwareMap.servo.get("servoArm");
+        //servoArm = hardwareMap.servo.get("servoArm");
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, servoGrabber2, motorLiftArm2,servoArm);
+        ArmSystem = new ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
+        //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, servoGrabber2, servoArm);
 
         timer = new ElapsedTime();
 
