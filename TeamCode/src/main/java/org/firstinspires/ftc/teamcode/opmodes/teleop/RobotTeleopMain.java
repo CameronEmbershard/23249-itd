@@ -73,13 +73,14 @@ public class RobotTeleopMain extends OpMode {
         //ArmSystem.restrictedControlArmLift(gamepad2.left_trigger, gamepad2.left_bumper);
         ArmSystem.restrictedControlArmRotate(gamepad2.right_trigger, gamepad2.left_trigger);
         ArmSystem.ControlGripper(gamepad2.dpad_down,gamepad2.dpad_up );
+        ArmSystem.restrictedControlArmLift(gamepad2.left_bumper, gamepad2.right_bumper);
 
         // controls the arm
         //ArmSystem.ControlArm(gamepad2.a, gamepad2.y, gamepad2.x, gamepad2.dpad_left);
 
         //sends the data from the arm-system to the driver HUB
-        telemetry.addData("Hover",ArmSystem.getHoverPoint());
-        telemetry.addData("Hover2",ArmSystem.getHoverPoint2());
+        telemetry.addData("ArmPos",ArmSystem.getHoverPoint());
+        telemetry.addData("RotateArmPos",ArmSystem.getHoverPoint2());
         telemetry.addData("Grabber",ArmSystem.getPositionGrabber());
         telemetry.addData("Grabber2",ArmSystem.getPositionGrabber2());
         telemetry.addData("Arm",ArmSystem.getPositionArm());
