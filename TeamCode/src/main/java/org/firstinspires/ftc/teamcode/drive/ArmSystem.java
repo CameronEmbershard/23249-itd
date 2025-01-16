@@ -34,6 +34,8 @@ public class ArmSystem extends OpMode {
     static final double MAX_POS     =  1;     // Maximum rotational position
     static final double MIN_POS     =  0;     // Minimum rotational position
 
+    static final double MED_POS = 0.5; // Medium rotational pos CIC
+
     double  positionArm = MAX_POS; // Start at max position
     double  positionGrabber = MAX_POS; // Start at max position
     double  positionGrabber2 = MIN_POS; // Start at max position
