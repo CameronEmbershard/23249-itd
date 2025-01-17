@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.drive.ArmSystem;
+import org.firstinspires.ftc.teamcode.Drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
 
@@ -27,7 +27,7 @@ public class RobotAutoBluePixelSide extends RobotAuto {
     AutoDriveAndScore autoSystem;
 
     MechanumDrive driveSystem;
-    org.firstinspires.ftc.teamcode.drive.ArmSystem ArmSystem;
+    org.firstinspires.ftc.teamcode.Drive.ArmSystem ArmSystem;
 
     @Override
     public void runOpMode()

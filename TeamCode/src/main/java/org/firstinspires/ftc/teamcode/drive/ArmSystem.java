@@ -34,6 +34,8 @@ public class ArmSystem extends OpMode {
     static final double MAX_POS     =  1;     // Maximum rotational position
     static final double MIN_POS     =  0;     // Minimum rotational position
 
+    static final double MED_POS = 0.5; // Medium rotational pos CIC
+
     double  positionArm = MAX_POS; // Start at max position
     double  positionGrabber = MAX_POS; // Start at max position
     double  positionGrabber2 = MIN_POS; // Start at max position
@@ -177,7 +179,7 @@ public class ArmSystem extends OpMode {
 
             //get the current position of the rotating arm for the hover code
             hoverPoint2 = motorRotateArm.getCurrentPosition();
-        } else {
+        } else if(motorRotateArm.getCurrentPosition() > 1) {
             //set the target hover point to the position found above and move the arm at a set speed to hold it
             hoverPoint2Chk = motorRotateArm.getCurrentPosition();
             if(hoverPoint2Chk != hoverPoint2) {
@@ -188,15 +190,18 @@ public class ArmSystem extends OpMode {
             }
 
         }
+        else {
+            motorRotateArm.setPower(0);
+        }
     }
 
 
     //controls the viper-slide takes in a move up and down command(binded to left-bumper and left-trigger)
-    public void restrictedControlArmLift(double moveArmUp, boolean moveArmDown){
+    public void restrictedControlArmLift(boolean moveArmUp, boolean moveArmDown){
 
         //if the right-trigger is being pressed turn the slide on at a set power level
         //the right-trigger outputs a double value where 1 is being pressed fully and 0 is not being pressed
-            if(moveArmUp != 0.0)
+            if(moveArmUp)
             {
                 motorLiftArm.setPower(liftArmUpSpeed);
                 motorLiftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
