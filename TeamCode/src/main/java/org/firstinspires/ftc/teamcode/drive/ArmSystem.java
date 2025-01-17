@@ -179,7 +179,7 @@ public class ArmSystem extends OpMode {
 
             //get the current position of the rotating arm for the hover code
             hoverPoint2 = motorRotateArm.getCurrentPosition();
-        } else {
+        } else if(motorRotateArm.getCurrentPosition() > 1) {
             //set the target hover point to the position found above and move the arm at a set speed to hold it
             hoverPoint2Chk = motorRotateArm.getCurrentPosition();
             if(hoverPoint2Chk != hoverPoint2) {
@@ -189,6 +189,9 @@ public class ArmSystem extends OpMode {
                 motorRotateArm.setPower(liftArmHoverPower2);
             }
 
+        }
+        else {
+            motorRotateArm.setPower(0);
         }
     }
 

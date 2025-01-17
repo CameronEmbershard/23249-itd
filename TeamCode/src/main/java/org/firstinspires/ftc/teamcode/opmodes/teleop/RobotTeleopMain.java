@@ -70,7 +70,6 @@ public class RobotTeleopMain extends OpMode {
         driveSystem.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x, gamepad1.right_trigger);
 
         //controls both viper-slides and the gripper
-        //ArmSystem.restrictedControlArmLift(gamepad2.left_trigger, gamepad2.left_bumper);
         ArmSystem.restrictedControlArmRotate(gamepad2.right_trigger, gamepad2.left_trigger);
         ArmSystem.ControlGripper(gamepad2.dpad_down,gamepad2.dpad_up );
         ArmSystem.restrictedControlArmLift(gamepad2.left_bumper, gamepad2.right_bumper);
