@@ -79,8 +79,8 @@ public class RobotTeleopMain extends OpMode {
 
         //sends the data from the arm-system to the driver HUB
         telemetry.addData("ArmPos",ArmSystem.getHoverPoint());
-        telemetry.addData("RotateArmPos",ArmSystem.getHoverPoint2());
         telemetry.addData("Grabber",ArmSystem.getPositionGrabber());
+        telemetry.addData("RotateArm", ArmSystem.getPositionRotateArm());
         telemetry.addData("Grabber2",ArmSystem.getPositionGrabber2());
         telemetry.addData("Arm",ArmSystem.getPositionArm());
         //telemetry.addData("Vision", visionSystem.getSide());

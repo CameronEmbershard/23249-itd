@@ -20,15 +20,19 @@ public class AutoDriveAndScore {
         this.driveSystem = driveSystem;
         this.armSystem = armSystem;
         this.autoMain = autoMain;
-
     }
 
     public void driveAutonomously() {
-        armSystem.setTargetPosArm(4384);
+        armSystem.ControlGripper(false, false);
+        autoMain.sleep(350);
+        armSystem.setTargetPosArm(4384);    
+        driveSystem.moveBackward();
+        autoMain.sleep(250);
+        driveSystem.rotateRight();
+        autoMain.sleep(255);
+        driveSystem.moveForward(0.5);
+        autoMain.sleep(1550);
+        driveSystem.moveStop();
         armSystem.ControlGripper(true, false);
-        driveSystem.moveLeft(1447);
-        driveSystem.rotateLeft(100);
-        armSystem.setTargetPosArm(0);
-        armSystem.ControlGripper(false, true);
     }
 }

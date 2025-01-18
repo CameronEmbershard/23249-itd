@@ -80,52 +80,40 @@ public class MechanumDrive {
         else motorBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
-    public void moveForward(int mm){
-        motorFrontLeft.setTargetPosition((int)ticksPerMillimeter*mm);
-        motorFrontRight.setTargetPosition((int)ticksPerMillimeter*mm);
-        motorBackLeft.setTargetPosition((int)ticksPerMillimeter*mm);
-        motorBackRight.setTargetPosition((int)ticksPerMillimeter*mm);
+    public void moveForward(double speed){
 
         //to be able to use run to position mode it has to be declared after setting a position
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        motorFrontLeft.setPower(1);
-        motorFrontRight.setPower(1);
-        motorBackLeft.setPower(1);
-        motorBackRight.setPower(1);
+        motorFrontLeft.setPower(speed);
+        motorFrontRight.setPower(speed);
+        motorBackLeft.setPower(speed);
+        motorBackRight.setPower(speed);
     }
 
-    public void moveBackward(int mm){
-        motorFrontLeft.setTargetPosition((int)-ticksPerMillimeter*mm);
-        motorFrontRight.setTargetPosition((int)-ticksPerMillimeter*mm);
-        motorBackLeft.setTargetPosition((int)-ticksPerMillimeter*mm);
-        motorBackRight.setTargetPosition((int)-ticksPerMillimeter*mm);
+    public void moveBackward(){
 
         //to be able to use run to position mode it has to be declared after setting a position
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         motorFrontLeft.setPower(-1);
         motorFrontRight.setPower(-1);
         motorBackLeft.setPower(-1);
         motorBackRight.setPower(-1);
     }
-    public void moveLeft(int mm){
-        motorFrontLeft.setTargetPosition((int)-ticksPerMillimeter*mm);
-        motorFrontRight.setTargetPosition((int)-ticksPerMillimeter*mm);
-        motorBackLeft.setTargetPosition((int)ticksPerMillimeter*mm);
-        motorBackRight.setTargetPosition((int)ticksPerMillimeter*mm);
+    public void moveLeft(){
 
         //to be able to use run to position mode it has to be declared after setting a position
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         motorFrontLeft.setPower(-1);
         motorFrontRight.setPower(-1);
@@ -133,17 +121,13 @@ public class MechanumDrive {
         motorBackRight.setPower(1);
     }
 
-    public void moveRight(int mm){
-        motorFrontLeft.setTargetPosition((int)ticksPerMillimeter*mm);
-        motorFrontRight.setTargetPosition((int)ticksPerMillimeter*mm);
-        motorBackLeft.setTargetPosition((int)-ticksPerMillimeter*mm);
-        motorBackRight.setTargetPosition((int)-ticksPerMillimeter*mm);
+    public void moveRight(){
 
         //to be able to use run to position mode it has to be declared after setting a position
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         motorFrontLeft.setPower(1);
         motorFrontRight.setPower(1);
@@ -151,17 +135,25 @@ public class MechanumDrive {
         motorBackRight.setPower(-1);
     }
 
-    public void rotateRight(int mm){
-        motorFrontLeft.setTargetPosition((int)-ticksPerMillimeter*mm);
-        motorFrontRight.setTargetPosition((int)ticksPerMillimeter*mm);
-        motorBackLeft.setTargetPosition((int)-ticksPerMillimeter*mm);
-        motorBackRight.setTargetPosition((int)ticksPerMillimeter*mm);
-
+    public void moveStop(){
         //to be able to use run to position mode it has to be declared after setting a position
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        motorFrontLeft.setPower(0);
+        motorFrontRight.setPower(0);
+        motorBackLeft.setPower(0);
+        motorBackRight.setPower(0);
+    }
+
+    public void rotateRight(){
+        //to be able to use run to position mode it has to be declared after setting a position
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         motorFrontLeft.setPower(-1);
         motorFrontRight.setPower(1);
@@ -169,17 +161,12 @@ public class MechanumDrive {
         motorBackRight.setPower(1);
     }
 
-    public void rotateLeft(int mm){
-        motorFrontLeft.setTargetPosition((int)ticksPerMillimeter*mm);
-        motorFrontRight.setTargetPosition((int)-ticksPerMillimeter*mm);
-        motorBackLeft.setTargetPosition((int)ticksPerMillimeter*mm);
-        motorBackRight.setTargetPosition((int)-ticksPerMillimeter*mm);
-
+    public void rotateLeft(){
         //to be able to use run to position mode it has to be declared after setting a position
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         motorFrontLeft.setPower(1);
         motorFrontRight.setPower(-1);

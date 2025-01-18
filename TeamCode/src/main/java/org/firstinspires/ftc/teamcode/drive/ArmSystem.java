@@ -37,8 +37,8 @@ public class ArmSystem extends OpMode {
     static final double MED_POS = 0.5; // Medium rotational pos CIC
 
     double  positionArm = MAX_POS; // Start at max position
-    double  positionGrabber = MAX_POS; // Start at max position
-    double  positionGrabber2 = MIN_POS; // Start at max position
+    double grabber = MIN_POS;
+    double grabber2 = MAX_POS;
 
 
 
@@ -56,18 +56,20 @@ public class ArmSystem extends OpMode {
 
     //get the Grabber's position so it can be passed to main for telemetry
     public double getPositionGrabber(){
-        return positionGrabber;
+        return grabber;
     }
 
     //get the Grabber's position so it can be passed to main for telemetry
     public double getPositionGrabber2(){
-        return positionGrabber2;
+        return grabber2;
     }
 
     //get the Arm's position so it can be passed to main for telemetry
     public double getPositionArm(){
         return positionArm;
     }
+
+    public double getPositionRotateArm(){ return motorRotateArm.getCurrentPosition(); }
 
     @Override
     public void init() {
@@ -99,10 +101,11 @@ public class ArmSystem extends OpMode {
     }
     public void setTargetPosArm(int targetPosition)
     {
-        motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //set the target hover point to the position found above and move the arm at a set speed to hold it
-        motorLiftArm.setTargetPosition(targetPosition);
-        motorLiftArm.setPower(liftArmHoverPower);
+        motorRotateArm.setTargetPosition(targetPosition);
+        motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        motorRotateArm.setPower(liftArmHoverPower);
     }
 
     //this is so that java doesn't get mad
@@ -114,16 +117,15 @@ public class ArmSystem extends OpMode {
     public void ControlGripper(boolean Close, boolean Open){
         //if the B-button is not being pressed close the gripper
         if (Close) {
-            //send grabber to max position
-            servoGrabber.setPosition(MAX_POS);
-            servoGrabber2.setPosition(MIN_POS);
+            grabber -= 0.05;
+            grabber2 += 0.05;
         }
-        //CIC
-
         if (Open){
-            servoGrabber.setPosition(MIN_POS);
-            servoGrabber2.setPosition(MAX_POS);
+            grabber += 0.05;
+            grabber2 -= 0.05;
         }
+        servoGrabber.setPosition(grabber);
+        servoGrabber2.setPosition(grabber2);
 
 
     }
@@ -220,10 +222,15 @@ public class ArmSystem extends OpMode {
             else
             {
                 //set the target hover point to the position found above and move the arm at a set speed to hold it
-                motorLiftArm.setTargetPosition(hoverPoint);
-                //unlike above we have to use the encoder to be able to run to a set position
-                motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorLiftArm.setPower(liftArmHoverPower);
+                if (hoverPoint < 300){
+                    motorLiftArm.setTargetPosition(hoverPoint);
+                    //unlike above we have to use the encoder to be able to run to a set position
+                    motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    motorLiftArm.setPower(liftArmHoverPower);
+                }
+                else{
+                    motorLiftArm.setPower(0);
+                }
             }
     }
 }
