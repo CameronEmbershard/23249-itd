@@ -23,12 +23,12 @@ public class AutoDriveAndScore {
     }
 
     public void driveAutonomously() {
-        armSystem.ControlGripper(false, false);
+        armSystem.ControlGripper(false, true);
         autoMain.sleep(350);
         armSystem.setTargetPosArm(4384);    
         driveSystem.moveBackward();
         autoMain.sleep(250);
-        driveSystem.rotateRight();
+        driveSystem.rotateLeft();
         autoMain.sleep(255);
         driveSystem.moveForward(0.5);
         autoMain.sleep(1550);

@@ -22,9 +22,9 @@ public class ArmSystem extends OpMode {
     final double liftArmDownSpeed = liftArmSpeed;
     final double liftArmHoverPower = 0.5;
 
-    final double rotateArmSpeed = 0.05;
+    final double rotateArmSpeed = 0.09;
     final double rotateArmUpSpeed = rotateArmSpeed;
-    final double rotateArmDownSpeed = -0.05;
+    final double rotateArmDownSpeed = -0.07;
     final double liftArmHoverPower2 = 0.01;
 
     private int hoverPoint;
