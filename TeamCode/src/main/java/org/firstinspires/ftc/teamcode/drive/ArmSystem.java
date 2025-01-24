@@ -224,11 +224,11 @@ public class ArmSystem extends OpMode {
 
     //controls the viper-slide takes in a move up and down command(binded to left-bumper and left-trigger)
     public void restrictedControlArmLift(boolean moveArmUp, boolean moveArmDown){
-
         //if the right-trigger is being pressed turn the slide on at a set power level
         //the right-trigger outputs a double value where 1 is being pressed fully and 0 is not being pressed
             if(moveArmUp)
             {
+                //restrictedControlArmRotate(1,0);
                 motorLiftArm.setPower(liftArmUpSpeed);
                 motorLiftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -238,6 +238,7 @@ public class ArmSystem extends OpMode {
             //if the left-bumper being pressed turn the slide on at a set power
             else if(moveArmDown)
             {
+                //restrictedControlArmRotate(1,0);
                 motorLiftArm.setPower(liftArmDownSpeed);
                 motorLiftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

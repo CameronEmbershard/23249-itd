@@ -28,6 +28,7 @@ public class RobotAutoBluePixelSide extends RobotAuto {
 
     MechanumDrive driveSystem;
     org.firstinspires.ftc.teamcode.Drive.ArmSystem ArmSystem;
+    VisionHandler visionSystem;
 
     @Override
     public void runOpMode()
@@ -45,10 +46,11 @@ public class RobotAutoBluePixelSide extends RobotAuto {
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
         ArmSystem = new ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
         //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, servoGrabber2, servoArm);
+        visionSystem = new VisionHandler();
 
         timer = new ElapsedTime();
 
-        AutoDriveAndScore autoSystem = new AutoDriveAndScore(timer, driveSystem, ArmSystem,this);
+        AutoDriveAndScore autoSystem = new AutoDriveAndScore(timer, driveSystem, ArmSystem,this, visionSystem);
 
         addTelemetry("Completed Init:", true);
 

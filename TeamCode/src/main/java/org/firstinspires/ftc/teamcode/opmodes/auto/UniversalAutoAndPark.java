@@ -5,11 +5,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
 
-@Autonomous(name = "AutoMoveAndPark")
+@Autonomous(name = "JustPark")
 
 public class UniversalAutoAndPark extends RobotAuto {
     DcMotor motorFrontRight;
@@ -25,10 +26,13 @@ public class UniversalAutoAndPark extends RobotAuto {
     //Servo servoArm;
 
     ElapsedTime timer;
-    AutoDriveForward autoSystem;
+    AutoPark autoSystem;
+
+    VisionHandler visionSystem;
 
     MechanumDrive driveSystem;
     org.firstinspires.ftc.teamcode.Drive.ArmSystem ArmSystem;
+    WebcamName webcam;
 
     @Override
     public void runOpMode()
@@ -43,16 +47,16 @@ public class UniversalAutoAndPark extends RobotAuto {
         servoGrabber2 = hardwareMap.servo.get("servoGrabber2");
         //servoArm = hardwareMap.servo.get("servoArm");
 
-        //webcam = hardwareMap.get(WebcamName.class, "Webcam 1");
+        webcam = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
         //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber,servoGrabber2, servoArm);
         ArmSystem = new ArmSystem(motorLiftArm, motorRotateArm, servoGrabber,servoGrabber2);
-        //visionSystem = new VisionHandler(webcam, false);
+        visionSystem = new VisionHandler();
 
         timer = new ElapsedTime();
 
-        AutoDriveAndScore autoSystem = new AutoDriveAndScore(timer, driveSystem, ArmSystem, this);
+        AutoPark autoSystem = new AutoPark(timer, driveSystem, this);
 
         telemetry.addData("Completed Init:", true);
 

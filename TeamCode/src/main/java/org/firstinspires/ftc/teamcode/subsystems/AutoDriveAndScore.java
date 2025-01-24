@@ -14,12 +14,14 @@ public class AutoDriveAndScore {
     MechanumDrive driveSystem;
     ArmSystem armSystem;
     RobotAuto autoMain;
+    VisionHandler vision;
 
-    public AutoDriveAndScore(ElapsedTime timer, MechanumDrive driveSystem, ArmSystem armSystem, RobotAuto autoMain){
+    public AutoDriveAndScore(ElapsedTime timer, MechanumDrive driveSystem, ArmSystem armSystem, RobotAuto autoMain, VisionHandler vision){
         this.timer = timer;
         this.driveSystem = driveSystem;
         this.armSystem = armSystem;
         this.autoMain = autoMain;
+        this.vision = vision;
     }
 
     public void driveAutonomously() {
@@ -34,5 +36,27 @@ public class AutoDriveAndScore {
         autoMain.sleep(1550);
         driveSystem.moveStop();
         armSystem.ControlGripper(true, false);
+        autoMain.sleep(1000);
+        driveSystem.rotateRight();
+        autoMain.sleep(750);
+        while(true){
+            driveSystem.stopAllMotors();
+            if(vision.getSide() == 1){
+                driveSystem.rotateLeft();
+                while(vision.getSide() == 1){
+                    autoMain.sleep(100);
+                }
+                driveSystem.stopAllMotors();
+            }
+            else{
+                driveSystem.rotateRight();
+                while(vision.getSide() == 2){
+                    autoMain.sleep(100);
+                }
+                driveSystem.stopAllMotors();
+            }
+            driveSystem.moveForward(1);
+            autoMain.sleep(500);
+        }
     }
 }
