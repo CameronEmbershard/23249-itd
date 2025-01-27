@@ -22,10 +22,14 @@ public class ArmSystem extends OpMode {
     final double liftArmDownSpeed = liftArmSpeed;
     final double liftArmHoverPower = 0.5;
 
-    final double rotateArmSpeed = 0.05;
-    final double rotateArmUpSpeed = rotateArmSpeed;
-    final double rotateArmDownSpeed = -0.05;
-    final double liftArmHoverPower2 = 0.01;
+    final double rotateArmUpSpeed = 0.03;
+    final double rotateArmUpSpeed1 = 0.1;
+    final double rotateArmUpSpeed2 = 0.2;
+    //final double rotateArmUpSpeed = rotateArmSpeed;
+    final double rotateArmDownSpeed = -0.07;
+    final double rotateArmHoverPower = 0.03;
+    int rotateArmPosition = 0;
+    int rotateArmPosIncrement = 10;
 
     private int hoverPoint;
     private int hoverPoint2 = 0;
@@ -37,8 +41,8 @@ public class ArmSystem extends OpMode {
     static final double MED_POS = 0.5; // Medium rotational pos CIC
 
     double  positionArm = MAX_POS; // Start at max position
-    double  positionGrabber = MAX_POS; // Start at max position
-    double  positionGrabber2 = MIN_POS; // Start at max position
+    double grabber = MIN_POS;
+    double grabber2 = MAX_POS;
 
 
 
@@ -56,18 +60,21 @@ public class ArmSystem extends OpMode {
 
     //get the Grabber's position so it can be passed to main for telemetry
     public double getPositionGrabber(){
-        return positionGrabber;
+        return grabber;
     }
 
     //get the Grabber's position so it can be passed to main for telemetry
     public double getPositionGrabber2(){
-        return positionGrabber2;
+        return grabber2;
     }
 
     //get the Arm's position so it can be passed to main for telemetry
     public double getPositionArm(){
         return positionArm;
     }
+
+    public double getCurPosRotateArm(){ return motorRotateArm.getCurrentPosition(); }
+    public double getSetPosRotateArm(){ return rotateArmPosition; }
 
     @Override
     public void init() {
@@ -91,6 +98,8 @@ public class ArmSystem extends OpMode {
         motorLiftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRotateArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRotateArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
     }
 
 
@@ -99,10 +108,11 @@ public class ArmSystem extends OpMode {
     }
     public void setTargetPosArm(int targetPosition)
     {
-        motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //set the target hover point to the position found above and move the arm at a set speed to hold it
-        motorLiftArm.setTargetPosition(targetPosition);
-        motorLiftArm.setPower(liftArmHoverPower);
+        //motorRotateArm.setTargetPosition(targetPosition);
+        //motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        //motorRotateArm.setPower(liftArmHoverPower);
     }
 
     //this is so that java doesn't get mad
@@ -114,16 +124,15 @@ public class ArmSystem extends OpMode {
     public void ControlGripper(boolean Close, boolean Open){
         //if the B-button is not being pressed close the gripper
         if (Close) {
-            //send grabber to max position
-            servoGrabber.setPosition(MAX_POS);
-            servoGrabber2.setPosition(MIN_POS);
+            grabber -= 0.05;
+            grabber2 += 0.05;
         }
-        //CIC
-
         if (Open){
-            servoGrabber.setPosition(MIN_POS);
-            servoGrabber2.setPosition(MAX_POS);
+            grabber += 0.05;
+            grabber2 -= 0.05;
         }
+        servoGrabber.setPosition(grabber);
+        servoGrabber2.setPosition(grabber2);
 
 
     }
@@ -160,49 +169,66 @@ public class ArmSystem extends OpMode {
 
     //controls the rotating arm in a rotate up and down command(binded to right-bumper and right-trigger)
     public void restrictedControlArmRotate(double moveArmUp, double moveArmDown) {
-        int hoverPoint2Chk;
+        //int hoverPoint2Chk;
         //if the right-trigger being pressed turn the slide on at a set power
         if (moveArmUp != 0.0) {
             //motorRotateArm.setMode(DcMotor.RunMode.RUN_WITH_ENCODER);
-            motorRotateArm.setTargetPosition(220);
+            rotateArmPosition = rotateArmPosition + rotateArmPosIncrement;
+            motorRotateArm.setTargetPosition(rotateArmPosition);
             motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorRotateArm.setPower(rotateArmUpSpeed);
-            //sleep(10);
+
+            //if(rotateArmPosition > 60 && rotateArmPosition < 100) {
+            if(rotateArmPosition > 60) {
+                motorRotateArm.setPower(rotateArmUpSpeed);
+            //} else if(rotateArmPosition >= 100) {
+            //    motorRotateArm.setPower(rotateArmUpSpeed);
+            } else {
+                motorRotateArm.setPower(rotateArmUpSpeed2);
+            }
+
+            while (motorRotateArm.isBusy());
+
             //get the current position of the motor/viper-slide for the hover code
-            hoverPoint2 = motorRotateArm.getCurrentPosition();
-            //if the right-trigger is being pressed turn the rotate arm motor on at a set power level
-            //the right-trigger outputs a double value where 1 is being pressed fully and 0 is not being pressed
-        } else if (moveArmDown != 0.0) { // right bumper pressed
-           motorRotateArm.setTargetPosition(10);
+            //hoverPoint2 = motorRotateArm.getCurrentPosition();
+
+        } else if (moveArmDown != 0.0) { // left-trigger pressed
+            rotateArmPosition = rotateArmPosition - rotateArmPosIncrement;
+            motorRotateArm.setTargetPosition(rotateArmPosition);
             motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             motorRotateArm.setPower(rotateArmDownSpeed);
 
-            //get the current position of the rotating arm for the hover code
-            hoverPoint2 = motorRotateArm.getCurrentPosition();
-        } else if(motorRotateArm.getCurrentPosition() > 1) {
-            //set the target hover point to the position found above and move the arm at a set speed to hold it
-            hoverPoint2Chk = motorRotateArm.getCurrentPosition();
-            if(hoverPoint2Chk != hoverPoint2) {
-                motorRotateArm.setTargetPosition(hoverPoint2);
-                //unlike above we have to use the encoder to be able to run to a set position
-                motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorRotateArm.setPower(liftArmHoverPower2);
-            }
+            while (motorRotateArm.isBusy());
 
-        }
-        else {
-            motorRotateArm.setPower(0);
+            //get the current position of the rotating arm for the hover code
+            //hoverPoint2 = motorRotateArm.getCurrentPosition();
+        } else {
+
+            if(rotateArmPosition > 10) {
+                //set the target hover point to the position found above and move the arm at a set speed to hold it
+                hoverPoint2 = motorRotateArm.getCurrentPosition();
+                //if (hoverPoint2 != rotateArmPosition) {
+                    motorRotateArm.setTargetPosition(rotateArmPosition);
+                    //unlike above we have to use the encoder to be able to run to a set position
+                    motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    motorRotateArm.setPower(rotateArmHoverPower);
+                    while (motorRotateArm.isBusy()) ;
+
+                //}
+            }
+            else {
+                motorRotateArm.setPower(0);
+            }
         }
     }
 
 
     //controls the viper-slide takes in a move up and down command(binded to left-bumper and left-trigger)
     public void restrictedControlArmLift(boolean moveArmUp, boolean moveArmDown){
-
         //if the right-trigger is being pressed turn the slide on at a set power level
         //the right-trigger outputs a double value where 1 is being pressed fully and 0 is not being pressed
             if(moveArmUp)
             {
+                //restrictedControlArmRotate(1,0);
                 motorLiftArm.setPower(liftArmUpSpeed);
                 motorLiftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -212,6 +238,7 @@ public class ArmSystem extends OpMode {
             //if the left-bumper being pressed turn the slide on at a set power
             else if(moveArmDown)
             {
+                //restrictedControlArmRotate(1,0);
                 motorLiftArm.setPower(liftArmDownSpeed);
                 motorLiftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -220,10 +247,15 @@ public class ArmSystem extends OpMode {
             else
             {
                 //set the target hover point to the position found above and move the arm at a set speed to hold it
-                motorLiftArm.setTargetPosition(hoverPoint);
-                //unlike above we have to use the encoder to be able to run to a set position
-                motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motorLiftArm.setPower(liftArmHoverPower);
+                if (hoverPoint < 300){
+                    motorLiftArm.setTargetPosition(hoverPoint);
+                    //unlike above we have to use the encoder to be able to run to a set position
+                    motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    motorLiftArm.setPower(liftArmHoverPower);
+                }
+                else{
+                    motorLiftArm.setPower(0);
+                }
             }
     }
 }

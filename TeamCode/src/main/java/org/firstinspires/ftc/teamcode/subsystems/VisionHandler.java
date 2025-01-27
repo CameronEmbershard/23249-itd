@@ -20,7 +20,6 @@ public class VisionHandler extends OpMode {
     OpenCvWebcam webcam;
     SamplePipeline pipeline;
     public void init(){
-
     }
 
     public void init(WebcamName webcamName) {
@@ -68,8 +67,8 @@ class SamplePipeline extends OpenCvPipeline {
     int location = 0; // output
 
     // Rectangle regions to be scanned
-    Point topLeft1 = new Point(10, 0), bottomRight1 = new Point(40, 20);
-    Point topLeft2 = new Point(10, 0), bottomRight2 = new Point(40, 20);
+    Point topLeft1 = new Point(0, 0), bottomRight1 = new Point(320, 480);
+    Point topLeft2 = new Point(320, 0), bottomRight2 = new Point(640, 480);
 
     @Override
     public void init(Mat firstFrame) {
