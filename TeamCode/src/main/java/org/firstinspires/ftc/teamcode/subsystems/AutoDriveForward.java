@@ -48,26 +48,8 @@ public class AutoDriveForward {
         motorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        motorLeft.setPower(0.5);
+        motorLeft.setPower(-0.5);
         motorRight.setPower(-0.5);
-        autoMain.sleep(1800);
-
-        motorLeft.setPower(-0.4);
-        motorRight.setPower(-0.4);
-
-        autoMain.sleep(1800);
-
-        motorLeft.setPower(0.2);
-        motorRight.setPower(0.2);
-        autoMain.sleep(300);
-        motorLeft.setPower(0.4);
-        motorRight.setPower(-0.4);
-        autoMain.sleep(800);
-        motorLeft.setPower(-0.4);
-        motorRight.setPower(-0.4);
-        autoMain.sleep(1800);
-        motorLeft.setPower(0.3);
-        motorRight.setPower(-0.3);
         autoMain.sleep(900);
 
 

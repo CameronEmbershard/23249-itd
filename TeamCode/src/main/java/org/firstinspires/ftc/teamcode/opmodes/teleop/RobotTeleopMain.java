@@ -22,10 +22,10 @@ public class RobotTeleopMain extends OpMode {
     //VisionHandler visionSystem = new VisionHandler();
 
     //both arms servos and motors
-    //DcMotor motorLiftArm;
-    //DcMotor motorRotateArm;
-    //Servo servoGrabber;
-    //Servo servoGrabber2;
+    DcMotor motorLiftArm;
+    DcMotor motorRotateArm;
+    Servo servoGrabber;
+    Servo servoGrabber2;
     //Servo servoArm;
 
 
@@ -33,7 +33,7 @@ public class RobotTeleopMain extends OpMode {
     //drive system(the one in subsystems)
     MechanumDrive driveSystem;
     //the arm system(there are two)
-    //org.firstinspires.ftc.teamcode.Drive.ArmSystem ArmSystem;
+    org.firstinspires.ftc.teamcode.Drive.ArmSystem ArmSystem;
 
     //all this is called when the init button is pressed
     @Override
@@ -46,20 +46,21 @@ public class RobotTeleopMain extends OpMode {
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
 
         //setup both arm servos and motors
-        //motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
-        //motorRotateArm = hardwareMap.dcMotor.get("motorRotateArm");
-        //servoGrabber = hardwareMap.servo.get("servoGrabber");
-        //servoGrabber2 = hardwareMap.servo.get("servoGrabber2");
+        motorLiftArm = hardwareMap.dcMotor.get("motorLiftArm");
+        motorRotateArm = hardwareMap.dcMotor.get("motorRotateArm");
+        servoGrabber = hardwareMap.servo.get("servoGrabber");
+        servoGrabber2 = hardwareMap.servo.get("servoGrabber2");
         //servoArm = hardwareMap.servo.get("servoArm");
 
         //init the drive and arm system
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        //ArmSystem = new ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
-        //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, motorRotateArm, servoArm);
+        ArmSystem = new ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
+        //The previous line here was deprecated :D CIC
 
         //init visionSystem.init(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
         //sends a message to driver HUB that all is 'ight
+        //yeah man, its radical CIC
         telemetry.addData("Main","All Systems Online. Here We Go!");
     }
 
@@ -70,9 +71,9 @@ public class RobotTeleopMain extends OpMode {
         driveSystem.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x, gamepad1.right_trigger);
 
         //controls both viper-slides and the gripper
-        //ArmSystem.restrictedControlArmRotate(gamepad2.right_trigger, gamepad2.left_trigger);
+        ArmSystem.restrictedControlArmRotate(gamepad2.right_trigger, gamepad2.left_trigger);
         //ArmSystem.ControlGripper(gamepad2.dpad_down,gamepad2.dpad_up );
-        //ArmSystem.restrictedControlArmLift(gamepad2.left_bumper, gamepad2.right_bumper);
+        ArmSystem.restrictedControlArmLift(gamepad2.left_bumper, gamepad2.right_bumper);
 
         // controls the arm
         //ArmSystem.ControlArm(gamepad2.a, gamepad2.y, gamepad2.x, gamepad2.dpad_left);
