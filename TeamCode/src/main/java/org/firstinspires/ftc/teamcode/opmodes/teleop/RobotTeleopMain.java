@@ -79,13 +79,14 @@ public class RobotTeleopMain extends OpMode {
         //ArmSystem.ControlArm(gamepad2.a, gamepad2.y, gamepad2.x, gamepad2.dpad_left);
 
         //sends the data from the arm-system to the driver HUB
-        //telemetry.addData("SlideArmPos",ArmSystem.getHoverPoint());
-        //telemetry.addData("RotateArmCurr", ArmSystem.getCurPosRotateArm());
-        //telemetry.addData("RotateArmPosSet", ArmSystem.getSetPosRotateArm());
-        //telemetry.addData("hoverPoint2", ArmSystem.getHoverPoint2());
-        //telemetry.addData("Grabber",ArmSystem.getPositionGrabber());
-        //telemetry.addData("Grabber2",ArmSystem.getPositionGrabber2());
-        //telemetry.addData("Arm",ArmSystem.getPositionArm());
+        telemetry.addData("SlideArmPos",ArmSystem.getHoverPoint());
+        telemetry.addData("RotateArmCurr", ArmSystem.getCurPosRotateArm());
+        telemetry.addData("RotateArmPosSet", ArmSystem.getSetPosRotateArm());
+        telemetry.addData("hoverPoint2", ArmSystem.getHoverPoint2());
+        telemetry.addData("Grabber",ArmSystem.getPositionGrabber());
+        telemetry.addData("Grabber2",ArmSystem.getPositionGrabber2());
+        telemetry.addData("Arm",ArmSystem.getPositionArm());
+
         //telemetry.addData("Vision", visionSystem.getSide());
         //call a telemetry update to push new data to driver HUB
         telemetry.update();
