@@ -1,13 +1,18 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto;
 
+import android.util.Size;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.teamcode.subsystems.VisionHandler;
 
 @Autonomous(name = "AutoMoveAndScore")
 public class RobotAutoBluePixelSide extends RobotAuto {
@@ -23,12 +28,15 @@ public class RobotAutoBluePixelSide extends RobotAuto {
     Servo servoGrabber2;
     //Servo servoArm;
 
+    private VisionPortal visionPortal;
+
     ElapsedTime timer;
     AutoDriveAndScore autoSystem;
 
     MechanumDrive driveSystem;
     org.firstinspires.ftc.teamcode.Drive.ArmSystem ArmSystem;
     VisionHandler visionSystem;
+    VisionProcessor pipeline;
 
     @Override
     public void runOpMode()
@@ -42,6 +50,14 @@ public class RobotAutoBluePixelSide extends RobotAuto {
         servoGrabber = hardwareMap.servo.get("servoGrabber");
         servoGrabber2 = hardwareMap.servo.get("servoGrabber2");
         //servoArm = hardwareMap.servo.get("servoArm");
+
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+        builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+        builder.enableLiveView(true);
+        builder.addProcessor(pipeline);
+        builder.setCameraResolution(new Size(640, 480));
+        visionPortal = builder.build();
+        visionPortal.resumeStreaming();
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
         ArmSystem = new ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
