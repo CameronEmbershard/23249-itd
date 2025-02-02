@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /** @noinspection ALL*/
 @TeleOp(name = "TwoMotorTank")
@@ -115,20 +117,50 @@ public class TwoMotorTank extends OpMode{
 
         if (yPressed)
         {
-            motorLeft.setTargetPosition((int)ticksPerRotation*30000);
-            motorRight.setTargetPosition((int)ticksPerRotation*-30000);
-            motorLeft.setTargetPosition((int)ticksPerRotation*30000);
-            motorRight.setTargetPosition((int)ticksPerRotation*-30000);
-            motorLeft.setTargetPosition((int)ticksPerRotation*30000);
-            motorRight.setTargetPosition((int)ticksPerRotation*-30000);
-            motorLeft.setTargetPosition((int)ticksPerRotation*30000);
-            motorRight.setTargetPosition((int)ticksPerRotation*-30000);
-            motorLeft.setTargetPosition((int)ticksPerRotation*30000);
-            motorRight.setTargetPosition((int)ticksPerRotation*-30000);
-            motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            motorLeft.setPower(1);
-            motorRight.setPower(1);
+            class turn extends LinearOpMode {
+                DcMotor motorRight;
+                DcMotor motorLeft;
+
+                final int motorRightForward = 1;
+                final int motorLeftForward = 1;
+
+                ElapsedTime timer;
+
+                final double driveTime = 1.5;
+                final double drivePower = 0.3;
+
+                @Override
+                public void runOpMode()
+                {
+                    motorRight = hardwareMap.dcMotor.get("motorRight");
+                    motorLeft = hardwareMap.dcMotor.get("motorLeft");
+
+                    timer = new ElapsedTime();
+
+                    waitForStart();
+
+                    timer.reset();
+
+                    while(timer.seconds() < driveTime)
+                    {
+                        motorRight.setPower(drivePower * motorRightForward);
+                        motorLeft.setPower(drivePower * motorLeftForward);
+                    }
+
+                    timer.reset();
+
+                    while(timer.seconds() < driveTime)
+                    {
+                        motorRight.setPower(-drivePower * motorRightForward);
+                        motorLeft.setPower(-drivePower * motorLeftForward);
+                    }
+
+                    motorRight.setPower(0);
+                    motorLeft.setPower(0);
+                }
+
+            }
+
 
         }
     }
