@@ -202,22 +202,7 @@ public class ArmSystem extends OpMode {
             //get the current position of the rotating arm for the hover code
             //hoverPoint2 = motorRotateArm.getCurrentPosition();
         } else {
-
-            if(rotateArmPosition > 10) {
-                //set the target hover point to the position found above and move the arm at a set speed to hold it
-                hoverPoint2 = motorRotateArm.getCurrentPosition();
-                //if (hoverPoint2 != rotateArmPosition) {
-                    motorRotateArm.setTargetPosition(rotateArmPosition);
-                    //unlike above we have to use the encoder to be able to run to a set position
-                    motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    motorRotateArm.setPower(rotateArmHoverPower);
-                    while (motorRotateArm.isBusy()) ;
-
-                //}
-            }
-            else {
-                motorRotateArm.setPower(0);
-            }
+            motorRotateArm.setPower(0);
         }
     }
 
@@ -246,16 +231,7 @@ public class ArmSystem extends OpMode {
             }
             else
             {
-                //set the target hover point to the position found above and move the arm at a set speed to hold it
-                if (hoverPoint < 300){
-                    motorLiftArm.setTargetPosition(hoverPoint);
-                    //unlike above we have to use the encoder to be able to run to a set position
-                    motorLiftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    motorLiftArm.setPower(liftArmHoverPower);
-                }
-                else{
-                    motorLiftArm.setPower(0);
-                }
+                motorLiftArm.setPower(0);
             }
     }
 }

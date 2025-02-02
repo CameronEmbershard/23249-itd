@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.Drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.teamcode.subsystems.VisionHandler;
 
 @Autonomous(name = "AutoMoveAndScore")
 public class RobotAutoBluePixelSide extends RobotAuto {
@@ -35,8 +34,6 @@ public class RobotAutoBluePixelSide extends RobotAuto {
 
     MechanumDrive driveSystem;
     org.firstinspires.ftc.teamcode.Drive.ArmSystem ArmSystem;
-    VisionHandler visionSystem;
-    VisionProcessor pipeline;
 
     @Override
     public void runOpMode()
@@ -51,22 +48,13 @@ public class RobotAutoBluePixelSide extends RobotAuto {
         servoGrabber2 = hardwareMap.servo.get("servoGrabber2");
         //servoArm = hardwareMap.servo.get("servoArm");
 
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-        builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        builder.enableLiveView(true);
-        builder.addProcessor(pipeline);
-        builder.setCameraResolution(new Size(640, 480));
-        visionPortal = builder.build();
-        visionPortal.resumeStreaming();
-
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
         ArmSystem = new ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
         //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, servoGrabber2, servoArm);
-        visionSystem = new VisionHandler();
 
         timer = new ElapsedTime();
 
-        AutoDriveAndScore autoSystem = new AutoDriveAndScore(timer, driveSystem, ArmSystem,this, visionSystem);
+        AutoDriveAndScore autoSystem = new AutoDriveAndScore(timer, driveSystem, ArmSystem,this);
 
         addTelemetry("Completed Init:", true);
 
