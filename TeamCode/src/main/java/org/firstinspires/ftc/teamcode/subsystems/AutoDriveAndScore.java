@@ -16,6 +16,9 @@ public class AutoDriveAndScore {
     RobotAuto autoMain;
     VisionHandler vision;
 
+    int startside;
+
+
     public AutoDriveAndScore(ElapsedTime timer, MechanumDrive driveSystem, ArmSystem armSystem, RobotAuto autoMain, VisionHandler vision){
         this.timer = timer;
         this.driveSystem = driveSystem;
@@ -27,29 +30,36 @@ public class AutoDriveAndScore {
     public void driveAutonomously() {
         armSystem.ControlGripper(false, true); //close the gripper to keep the piece
         autoMain.sleep(350); //give a little time for the gripper to put some grip on the piece
-        armSystem.setTargetPosArm(15); //move up the arm to the max pos
-        driveSystem.moveBackward(1,1000); //back-up to a safe distance from the starting area
-        driveSystem.rotateLeft(1,1000); //rotate 90 degrees to the left
-        driveSystem.moveForward(0.5, 1000); //move forward till we are at the drop off area plus a little margin of error
+        armSystem.setTargetPosArm(Integer.MAX_VALUE); //move up the arm to the max pos
+        driveSystem.moveBackward(1,10000); //back-up to a safe distance from the starting area
+        driveSystem.rotateLeft(1,10000); //rotate 90 degrees to the left
+        driveSystem.moveForward(0.5, 100000); //move forward till we are at the drop off area plus a little margin of error
         driveSystem.moveStop(); //stop for the basket
         armSystem.ControlGripper(true, false); //open gripper for basket
         autoMain.sleep(1000); //wait for the piece to fall out
-        driveSystem.rotateRight(0.75, 1000); //do a scanning 75 degree turn right
+        driveSystem.rotateRight(0.75, 10000); //do a scanning 75 degree turn right
         while(true){
+            startside = vision.getSide()[0];
             driveSystem.stopAllMotors();
-            if(vision.getSide() == 1){
+            if(startside == 1){
                 driveSystem.rotateLeft(1,Integer.MAX_VALUE);
-                while(vision.getSide() == 1){
+                while(vision.getSide()[0] == 1){
+                    autoMain.sleep(100);
+                }
+                driveSystem.stopAllMotors();
+            }
+            else if(startside == 2){
+                driveSystem.rotateRight(1,Integer.MAX_VALUE);
+                while(vision.getSide()[0] == 2){
                     autoMain.sleep(100);
                 }
                 driveSystem.stopAllMotors();
             }
             else{
-                driveSystem.rotateRight(1,Integer.MAX_VALUE);
-                while(vision.getSide() == 2){
-                    autoMain.sleep(100);
+                driveSystem.rotateLeft(0.5,Integer.MAX_VALUE);
+                while(vision.getSide()[0] == 0){
+                    autoMain.sleep(250);
                 }
-                driveSystem.stopAllMotors();
             }
             driveSystem.moveForward(1, 1000);
             autoMain.sleep(500);
