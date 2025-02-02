@@ -14,6 +14,7 @@ public class TwoMotorTank extends OpMode{
     DcMotor motorRight;
     DcMotor motorLeft;
 
+    boolean orangejuice = false;
 
     int motorRightForward = 1;
     int motorLeftForward = -1;
@@ -117,50 +118,16 @@ public class TwoMotorTank extends OpMode{
 
         if (yPressed)
         {
-            class turn extends LinearOpMode {
-                DcMotor motorRight;
-                DcMotor motorLeft;
+            motorLeft.setPower(1);
+            motorRight.setPower(-1);
+            boolean orangejuice = true;
 
-                final int motorRightForward = 1;
-                final int motorLeftForward = 1;
-
-                ElapsedTime timer;
-
-                final double driveTime = 1.5;
-                final double drivePower = 0.3;
-
-                @Override
-                public void runOpMode()
-                {
-                    motorRight = hardwareMap.dcMotor.get("motorRight");
-                    motorLeft = hardwareMap.dcMotor.get("motorLeft");
-
-                    timer = new ElapsedTime();
-
-                    waitForStart();
-
-                    timer.reset();
-
-                    while(timer.seconds() < driveTime)
-                    {
-                        motorRight.setPower(drivePower * motorRightForward);
-                        motorLeft.setPower(drivePower * motorLeftForward);
-                    }
-
-                    timer.reset();
-
-                    while(timer.seconds() < driveTime)
-                    {
-                        motorRight.setPower(-drivePower * motorRightForward);
-                        motorLeft.setPower(-drivePower * motorLeftForward);
-                    }
-
-                    motorRight.setPower(0);
-                    motorLeft.setPower(0);
-                }
-
+            if (yPressed && orangejuice = true) {
+                motorLeft.setPower(0);
+                motorRight.setPower(0);
+                boolean orangejuice = false;
             }
-
+            }
 
         }
     }
