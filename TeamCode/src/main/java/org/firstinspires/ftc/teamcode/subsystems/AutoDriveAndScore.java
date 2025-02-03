@@ -14,17 +14,16 @@ public class AutoDriveAndScore {
     MechanumDrive driveSystem;
     ArmSystem armSystem;
     RobotAuto autoMain;
-    VisionHandler vision;
+    //VisionHandler vision;
 
     int startside;
 
 
-    public AutoDriveAndScore(ElapsedTime timer, MechanumDrive driveSystem, ArmSystem armSystem, RobotAuto autoMain, VisionHandler vision){
+    public AutoDriveAndScore(ElapsedTime timer, MechanumDrive driveSystem, ArmSystem armSystem, RobotAuto autoMain){
         this.timer = timer;
         this.driveSystem = driveSystem;
         this.armSystem = armSystem;
         this.autoMain = autoMain;
-        this.vision = vision;
     }
 
     public void driveAutonomously() {
@@ -39,27 +38,27 @@ public class AutoDriveAndScore {
         autoMain.sleep(1000); //wait for the piece to fall out
         driveSystem.rotateRight(0.75, 10000); //do a scanning 75 degree turn right
         while(true){
-            startside = vision.getSide()[0];
+            //startside = vision.getSide()[0];
             driveSystem.stopAllMotors();
             if(startside == 1){
                 driveSystem.rotateLeft(1,Integer.MAX_VALUE);
-                while(vision.getSide()[0] == 1){
-                    autoMain.sleep(100);
-                }
+                //while(vision.getSide()[0] == 1){
+                //    autoMain.sleep(100);
+                //}
                 driveSystem.stopAllMotors();
             }
             else if(startside == 2){
                 driveSystem.rotateRight(1,Integer.MAX_VALUE);
-                while(vision.getSide()[0] == 2){
-                    autoMain.sleep(100);
-                }
+                //while(vision.getSide()[0] == 2){
+               //     autoMain.sleep(100);
+                //}
                 driveSystem.stopAllMotors();
             }
             else{
                 driveSystem.rotateLeft(0.5,Integer.MAX_VALUE);
-                while(vision.getSide()[0] == 0){
-                    autoMain.sleep(250);
-                }
+                //while(vision.getSide()[0] == 0){
+                //    autoMain.sleep(250);
+                //}
             }
             driveSystem.moveForward(1, 1000);
             autoMain.sleep(500);

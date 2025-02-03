@@ -31,7 +31,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import android.util.Size;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -58,13 +58,12 @@ import java.util.Locale;
  */
 
 @TeleOp(name = "Utility: Camera Frame Capture", group = "Utility")
-@Disabled
 public class UtilityCameraFrameCapture extends LinearOpMode
 {
     /*
      * EDIT THESE PARAMETERS AS NEEDED
      */
-    final boolean USING_WEBCAM = false;
+    final boolean USING_WEBCAM = true;
     final BuiltinCameraDirection INTERNAL_CAM_DIR = BuiltinCameraDirection.BACK;
     final int RESOLUTION_WIDTH = 640;
     final int RESOLUTION_HEIGHT = 480;

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
-import org.firstinspires.ftc.teamcode.subsystems.VisionHandler;
+
 
 @TeleOp(name = "TeleopMain")
 public class RobotTeleopMain extends OpMode {
@@ -26,7 +26,6 @@ public class RobotTeleopMain extends OpMode {
     DcMotor motorRotateArm;
     Servo servoGrabber;
     Servo servoGrabber2;
-    //Servo servoArm;
 
 
 
@@ -50,7 +49,6 @@ public class RobotTeleopMain extends OpMode {
         motorRotateArm = hardwareMap.dcMotor.get("motorRotateArm");
         servoGrabber = hardwareMap.servo.get("servoGrabber");
         servoGrabber2 = hardwareMap.servo.get("servoGrabber2");
-        //servoArm = hardwareMap.servo.get("servoArm");
 
         //init the drive and arm system
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
@@ -70,12 +68,14 @@ public class RobotTeleopMain extends OpMode {
         // Drives the robot
         driveSystem.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x, gamepad1.right_trigger);
 
-        //controls both viper-slides and the gripper
+        //controls both rotating arm and the grippers/grabbers
         ArmSystem.restrictedControlArmRotate(gamepad2.right_trigger, gamepad2.left_trigger);
-        //ArmSystem.ControlGripper(gamepad2.dpad_down,gamepad2.dpad_up );
+        ArmSystem.ControlGripper(gamepad2.dpad_down,gamepad2.dpad_up );
+
+        //controls both viper-slide for hanging
         ArmSystem.restrictedControlArmLift(gamepad2.left_bumper, gamepad2.right_bumper);
 
-        // controls the arm
+        // controls the arm. Not used in TeleOp
         //ArmSystem.ControlArm(gamepad2.a, gamepad2.y, gamepad2.x, gamepad2.dpad_left);
 
         //sends the data from the arm-system to the driver HUB
