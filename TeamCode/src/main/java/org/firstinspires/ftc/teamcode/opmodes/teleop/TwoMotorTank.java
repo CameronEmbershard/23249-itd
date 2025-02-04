@@ -116,19 +116,18 @@ public class TwoMotorTank extends OpMode{
             motorRight.setPower(rightPower * overallPower * slowSpeedMultiplier * motorRightForward);
         }
 
-        if (yPressed)
+        if (yPressed && (orangejuice == false))
         {
             motorLeft.setPower(1);
             motorRight.setPower(-1);
-            boolean orangejuice = true;
-
-            if (yPressed && orangejuice = true) {
-                motorLeft.setPower(0);
-                motorRight.setPower(0);
-                boolean orangejuice = false;
-            }
-            }
+            orangejuice = true;
 
         }
+        if (yPressed && (orangejuice == true)) {
+            motorLeft.setPower(0);
+            motorRight.setPower(0);
+            orangejuice = false;
+        }
+
     }
 }

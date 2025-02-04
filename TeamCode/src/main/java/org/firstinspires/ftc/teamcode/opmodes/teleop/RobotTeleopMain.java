@@ -78,6 +78,9 @@ public class RobotTeleopMain extends OpMode {
         // controls the arm. Not used in TeleOp
         //ArmSystem.ControlArm(gamepad2.a, gamepad2.y, gamepad2.x, gamepad2.dpad_left);
 
+        if (gamepad2.y){
+            ArmSystem.setTargetPosArm(90);
+        }
         //sends the data from the arm-system to the driver HUB
         telemetry.addData("SlideArmPos",ArmSystem.getHoverPoint());
         telemetry.addData("RotateArmCurr", ArmSystem.getCurPosRotateArm());

@@ -109,10 +109,12 @@ public class ArmSystem extends OpMode {
     public void setTargetPosArm(int targetPosition)
     {
         //set the target hover point to the position found above and move the arm at a set speed to hold it
-        //motorRotateArm.setTargetPosition(targetPosition);
-        //motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorRotateArm.setTargetPosition(targetPosition);
+        motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        //motorRotateArm.setPower(liftArmHoverPower);
+        motorRotateArm.setPower(rotateArmUpSpeed1);
+
+        //while (motorRotateArm.isBusy());
     }
 
     //this is so that java doesn't get mad
@@ -126,11 +128,24 @@ public class ArmSystem extends OpMode {
         if (Close) {
             grabber -= 0.05;
             grabber2 += 0.05;
+            if (grabber < 0){
+                grabber = 0.0;
+            }
+            if (grabber2 > 1.0){
+                grabber2 = 1.0;
+            }
         }
         if (Open){
             grabber += 0.05;
             grabber2 -= 0.05;
+            if (grabber2 < 0){
+                grabber2 = 0.0;
+            }
+            if (grabber > 1.0){
+                grabber = 1.0;
+            }
         }
+
         servoGrabber.setPosition(grabber);
         servoGrabber2.setPosition(grabber2);
 
@@ -186,7 +201,7 @@ public class ArmSystem extends OpMode {
                 motorRotateArm.setPower(rotateArmUpSpeed2);
             }
 
-            while (motorRotateArm.isBusy());
+            //while (motorRotateArm.isBusy());
 
             //get the current position of the motor/viper-slide for the hover code
             //hoverPoint2 = motorRotateArm.getCurrentPosition();
@@ -197,7 +212,7 @@ public class ArmSystem extends OpMode {
             motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             motorRotateArm.setPower(rotateArmDownSpeed);
 
-            while (motorRotateArm.isBusy());
+            //while (motorRotateArm.isBusy());
 
             //get the current position of the rotating arm for the hover code
             //hoverPoint2 = motorRotateArm.getCurrentPosition();

@@ -55,11 +55,27 @@ public class RobotAutoBluePixelSide extends RobotAuto {
         timer = new ElapsedTime();
 
         AutoDriveAndScore autoSystem = new AutoDriveAndScore(timer, driveSystem, ArmSystem,this);
+        //VisionPortal.Builder builder = new VisionPortal.Builder();
+        //builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+        //builder.enableLiveView(true);
+        //builder.addProcessor(pipeline);
+        //builder.setCameraResolution(new Size(640, 480));
+        //visionPortal = builder.build();
+        //visionPortal.resumeStreaming();
+
+        driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
+        ArmSystem = new ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
+        //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, servoGrabber2, servoArm);
+        //visionSystem = new VisionHandler();
+
+        timer = new ElapsedTime();
+
+//        AutoDriveAndScore autoSystem = new AutoDriveAndScore(timer, driveSystem, ArmSystem,this, visionSystem);
 
         addTelemetry("Completed Init:", true);
 
         waitForStart();
 
-        autoSystem.driveAutonomously();
+        //autoSystem.driveAutonomously();
     }
 }
