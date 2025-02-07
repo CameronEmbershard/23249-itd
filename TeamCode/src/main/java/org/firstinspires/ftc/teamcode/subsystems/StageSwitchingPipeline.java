@@ -15,22 +15,10 @@ import java.util.List;
 public class StageSwitchingPipeline extends OpenCvPipeline
 {
 
-    private final int rows = 640;
-    private final int cols = 480;
-
-    private static int valMid = -1;
-    private static int valLeft = -1;
-    private static int valRight = -1;
-
-    private static float rectHeight = 1f;
-    private static float rectWidth = 0.75f;
-
-    private static float[] leftPos = {0f, 0.5f};
-    private static float[] rightPos = {0.5f, 0.5f};
-
-    Mat yCbCrChan2Mat = new Mat();
+    Mat Coloredframe = new Mat();
     Mat thresholdMat = new Mat();
     Mat all = new Mat();
+    int side;
     List<MatOfPoint> contoursList = new ArrayList<>();
 
     enum Stage
@@ -42,6 +30,10 @@ public class StageSwitchingPipeline extends OpenCvPipeline
 
     private Stage stageToRenderToViewport = Stage.detection;
     private final Stage[] stages = Stage.values();
+
+    public int getSide(){
+        return side;
+    }
 
     @Override
     public void onViewportTapped()
@@ -63,9 +55,6 @@ public class StageSwitchingPipeline extends OpenCvPipeline
         stageToRenderToViewport = stages[nextStageNum];
     }
 
-    Scalar lower = new Scalar(0,0,0);
-    Scalar upper = new Scalar(255,0,0);
-
     @Override
     public Mat processFrame(Mat frame)
     {
@@ -79,51 +68,43 @@ public class StageSwitchingPipeline extends OpenCvPipeline
         //lower cb = more blue = skystone = white
         //higher cb = less blue = yellow stone = grey
         //Imgproc.cvtColor(frame, yCbCrChan2Mat, Imgproc.COLOR_RGB2GRAY);//converts rgb to gray
-        Core.extractChannel(frame, frame, 0);//takes cb difference and stores
+        Core.extractChannel(frame, Coloredframe, 1);//takes green frame and adds it in
+        Core.extractChannel(frame, Coloredframe, 2);//takes blue frame and adds it in
 
         //b&w
-        Imgproc.threshold(frame, thresholdMat, 102, 255, Imgproc.THRESH_BINARY_INV);
+        Imgproc.threshold(Coloredframe, thresholdMat, 0, 150, Imgproc.THRESH_BINARY_INV);
 
         //outline/contour
         Imgproc.findContours(thresholdMat, contoursList, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
-        frame.copyTo(all);//copies mat object
-        //Imgproc.drawContours(all, contoursList, -1, new Scalar(255, 0, 0), 3, 8);//draws blue contours
+        thresholdMat.copyTo(all);//copies mat object
+        Imgproc.drawContours(all, contoursList, -1, new Scalar(255, 0, 0), 3, 8);//draws blue contours
 
-
-        //get values from frame
-        double[] pixLeft = thresholdMat.get((int)(frame.rows()* leftPos[1]), (int)(frame.cols()* leftPos[0]));//gets value at circle
-        valLeft = (int)pixLeft[0];
-
-        double[] pixRight = thresholdMat.get((int)(frame.rows()* rightPos[1]), (int)(frame.cols()* rightPos[0]));//gets value at circle
-        valRight = (int)pixRight[0];
-
-        //create three points
-        Point pointLeft = new Point((int)(frame.cols()* leftPos[0]), (int)(frame.rows()* leftPos[1]));
-        Point pointRight = new Point((int)(frame.cols()* rightPos[0]), (int)(frame.rows()* rightPos[1]));
-
-        //draw circles on those points
-        Imgproc.circle(all, pointLeft,5, new Scalar( 255, 0, 0 ),1 );//draws circle
-        Imgproc.circle(all, pointRight,5, new Scalar( 255, 0, 0 ),1 );//draws circle
-
-        //draw 3 rectangles
-        Imgproc.rectangle(//1-3
-                all,
-                new Point(
-                        frame.cols()*(leftPos[0]-rectWidth/2),
-                        frame.rows()*(leftPos[1]-rectHeight/2)),
-                new Point(
-                        frame.cols()*(leftPos[0]+rectWidth/2),
-                        frame.rows()*(leftPos[1]+rectHeight/2)),
-                new Scalar(0, 255, 0), 3);
-        Imgproc.rectangle(//5-7
-                all,
-                new Point(
-                        frame.cols()*(rightPos[0]-rectWidth/2),
-                        frame.rows()*(rightPos[1]-rectHeight/2)),
-                new Point(
-                        frame.cols()*(rightPos[0]+rectWidth/2),
-                        frame.rows()*(rightPos[1]+rectHeight/2)),
-                new Scalar(0, 255, 0), 3);
+        int numLeft = 0;
+        int numRight = 0;
+        try{
+            List<MatOfPoint> MatOfPoints = contoursList;
+            for(MatOfPoint MatPoint: MatOfPoints){
+                List<Point> MatPoint2 = MatPoint.toList();
+                for(Point point: MatPoint2) {
+                    if(point.x > 340){
+                        numRight += 1;
+                    }
+                    else if(point.x < 300){
+                        numLeft += 1;
+                    }
+                }
+            }
+        }finally {
+            if(numLeft > numRight){
+                side = -1;
+            }
+            else if(numRight > numLeft){
+                side = 1;
+            }
+            else{
+                side = 0;
+            }
+        }
 
         switch (stageToRenderToViewport)
         {

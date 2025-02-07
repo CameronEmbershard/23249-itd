@@ -70,17 +70,14 @@ public class UniversalAutoAndPark extends RobotAuto {
     @Override
     public void runOpMode()
     {
-        //P.S. if you're using the latest version of easyopencv, you might need to change the next line to the following:
-        //phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         WebcamName cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
         phoneCam = OpenCvCameraFactory.getInstance().createWebcam(cameraName, 0);
 
+        StageSwitchingPipeline vision = new StageSwitchingPipeline();
 
         phoneCam.openCameraDevice();//open camera
-        phoneCam.setPipeline(new StageSwitchingPipeline());//different stages
+        phoneCam.setPipeline(vision);//different stages
         phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
-        //width, height
-        //width = height in this case, because camera is in portrait mode.
 
         motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
@@ -110,15 +107,10 @@ public class UniversalAutoAndPark extends RobotAuto {
         while (opModeIsActive()) {
             //0 means skystone, 1 means yellow stone
             //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
-            int valMid = -1;
-            int valLeft = -1;
-            int valRight = -1;
-            telemetry.addData("Values", valLeft +"   "+ valMid +"   "+ valRight);
-            telemetry.addData("Height", rows);
-            telemetry.addData("Width", cols);
 
+            telemetry.addData("Vision", vision.getSide());
             telemetry.update();
-            sleep(100);
+            sleep(500);
             //call movement functions
 //            strafe(0.4, 200);
 //            moveDistance(0.4, 700);
