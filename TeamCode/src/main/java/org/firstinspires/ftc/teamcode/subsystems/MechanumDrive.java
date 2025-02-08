@@ -108,8 +108,8 @@ public class MechanumDrive {
         motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorFrontLeft.setPower(speed);
-        motorFrontRight.setPower(speed);
+        motorFrontLeft.setPower(-speed);
+        motorFrontRight.setPower(-speed);
         motorBackLeft.setPower(speed);
         motorBackRight.setPower(speed);
     }

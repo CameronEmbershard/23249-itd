@@ -23,7 +23,7 @@ public class ArmSystem extends OpMode {
     final double liftArmHoverPower = 0.5;
 
     final double rotateArmUpSpeed = 0.03;
-    final double rotateArmUpSpeed1 = 0.1;
+    final double rotateArmUpSpeed1 = 0.3;
     final double rotateArmUpSpeed2 = 0.2;
     //final double rotateArmUpSpeed = rotateArmSpeed;
     final double rotateArmDownSpeed = -0.07;
