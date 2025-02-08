@@ -189,6 +189,10 @@ public class ArmSystem extends OpMode {
         if (moveArmUp != 0.0) {
             //motorRotateArm.setMode(DcMotor.RunMode.RUN_WITH_ENCODER);
             rotateArmPosition = rotateArmPosition + rotateArmPosIncrement;
+            // 157 max position of rotating arm. Do not go above it
+            if (rotateArmPosition >= 158){
+                rotateArmPosition = 157;
+            }
             motorRotateArm.setTargetPosition(rotateArmPosition);
             motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -208,6 +212,10 @@ public class ArmSystem extends OpMode {
 
         } else if (moveArmDown != 0.0) { // left-trigger pressed
             rotateArmPosition = rotateArmPosition - rotateArmPosIncrement;
+            // Do not go in the negative position range.  Zero should be all the way down.
+            if (rotateArmPosition < 0){
+                rotateArmPosition = 0;
+            }
             motorRotateArm.setTargetPosition(rotateArmPosition);
             motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             motorRotateArm.setPower(rotateArmDownSpeed);
