@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Drive;
+package org.firstinspires.ftc.teamcode.drive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -22,9 +22,7 @@ public class ArmSystem extends OpMode {
     final double liftArmDownSpeed = liftArmSpeed;
     final double liftArmHoverPower = 0.5;
 
-    final double rotateArmUpSpeed = 0.03;
-    final double rotateArmUpSpeed1 = 0.3;
-    final double rotateArmUpSpeed2 = 0.2;
+    final double rotateArmUpSpeed = 0.25;
     //final double rotateArmUpSpeed = rotateArmSpeed;
     final double rotateArmDownSpeed = -0.07;
     final double rotateArmHoverPower = 0.03;
@@ -112,7 +110,7 @@ public class ArmSystem extends OpMode {
         motorRotateArm.setTargetPosition(targetPosition);
         motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorRotateArm.setPower(rotateArmUpSpeed1);
+        motorRotateArm.setPower(rotateArmUpSpeed);
 
         //while (motorRotateArm.isBusy());
     }
@@ -183,12 +181,14 @@ public class ArmSystem extends OpMode {
     }
 
     //controls the rotating arm in a rotate up and down command(binded to right-bumper and right-trigger)
-    public void restrictedControlArmRotate(double moveArmUp, double moveArmDown) {
+    public void restrictedControlArmRotate(double moveArmUp, double moveArmDown, boolean half) {
         //int hoverPoint2Chk;
         //if the right-trigger being pressed turn the slide on at a set power
         if (moveArmUp != 0.0) {
             //motorRotateArm.setMode(DcMotor.RunMode.RUN_WITH_ENCODER);
-            rotateArmPosition = rotateArmPosition + rotateArmPosIncrement;
+            if(rotateArmPosition + rotateArmPosIncrement < 160){
+                rotateArmPosition = rotateArmPosition + rotateArmPosIncrement;
+            }
             // 157 max position of rotating arm. Do not go above it
             if (rotateArmPosition >= 158){
                 rotateArmPosition = 157;
@@ -196,22 +196,15 @@ public class ArmSystem extends OpMode {
             motorRotateArm.setTargetPosition(rotateArmPosition);
             motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            //if(rotateArmPosition > 60 && rotateArmPosition < 100) {
-            if(rotateArmPosition > 60) {
-                motorRotateArm.setPower(rotateArmUpSpeed);
-            //} else if(rotateArmPosition >= 100) {
-            //    motorRotateArm.setPower(rotateArmUpSpeed);
-            } else {
-                motorRotateArm.setPower(rotateArmUpSpeed2);
-            }
-
             //while (motorRotateArm.isBusy());
 
             //get the current position of the motor/viper-slide for the hover code
             //hoverPoint2 = motorRotateArm.getCurrentPosition();
 
         } else if (moveArmDown != 0.0) { // left-trigger pressed
-            rotateArmPosition = rotateArmPosition - rotateArmPosIncrement;
+            if(rotateArmPosition - rotateArmPosIncrement > 0){
+                rotateArmPosition = rotateArmPosition - rotateArmPosIncrement;
+            }
             // Do not go in the negative position range.  Zero should be all the way down.
             if (rotateArmPosition < 0){
                 rotateArmPosition = 0;
@@ -224,8 +217,12 @@ public class ArmSystem extends OpMode {
 
             //get the current position of the rotating arm for the hover code
             //hoverPoint2 = motorRotateArm.getCurrentPosition();
+        }else if(half){
+            motorRotateArm.setTargetPosition(80);
+            motorRotateArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorRotateArm.setPower(rotateArmDownSpeed);
         } else {
-            motorRotateArm.setPower(0);
+            motorRotateArm.setPower(rotateArmUpSpeed);
         }
     }
 

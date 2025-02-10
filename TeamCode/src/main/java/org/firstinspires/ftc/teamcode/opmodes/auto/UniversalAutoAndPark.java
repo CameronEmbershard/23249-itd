@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Drive.ArmSystem;
+import org.firstinspires.ftc.teamcode.drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
 
@@ -26,7 +26,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name = "TestVision")
+@Autonomous(name = "JustPark/VisionTest")
 
 public class UniversalAutoAndPark extends RobotAuto {
     DcMotor motorFrontRight;
@@ -46,7 +46,7 @@ public class UniversalAutoAndPark extends RobotAuto {
 
 
     MechanumDrive driveSystem;
-    org.firstinspires.ftc.teamcode.Drive.ArmSystem ArmSystem;
+    org.firstinspires.ftc.teamcode.drive.ArmSystem ArmSystem;
     WebcamName webcam;
 
     private static final float rectHeight = .6f/8f;
@@ -91,7 +91,7 @@ public class UniversalAutoAndPark extends RobotAuto {
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
         //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber,servoGrabber2, servoArm);
-        ArmSystem = new ArmSystem(motorLiftArm, motorRotateArm, servoGrabber,servoGrabber2);
+        ArmSystem = new org.firstinspires.ftc.teamcode.drive.ArmSystem(motorLiftArm, motorRotateArm, servoGrabber,servoGrabber2);
 
         timer = new ElapsedTime();
 
@@ -102,6 +102,9 @@ public class UniversalAutoAndPark extends RobotAuto {
         telemetry.update();
 
         waitForStart();
+
+        //comment for no movement and no stop
+        autoSystem.driveAutonomously();
 
         runtime.reset();
         while (opModeIsActive()) {

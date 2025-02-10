@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
-import org.firstinspires.ftc.teamcode.Drive.ArmSystem;
+import org.firstinspires.ftc.teamcode.drive.ArmSystem;
 
 @Disabled
 @TeleOp(name = "TeleopArm")

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Drive.ArmSystem;
+import org.firstinspires.ftc.teamcode.drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
 
 
@@ -32,7 +32,7 @@ public class RobotTeleopMain extends OpMode {
     //drive system(the one in subsystems)
     MechanumDrive driveSystem;
     //the arm system(there are two)
-    org.firstinspires.ftc.teamcode.Drive.ArmSystem ArmSystem;
+    org.firstinspires.ftc.teamcode.drive.ArmSystem ArmSystem;
 
     //all this is called when the init button is pressed
     @Override
@@ -52,7 +52,7 @@ public class RobotTeleopMain extends OpMode {
 
         //init the drive and arm system
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        ArmSystem = new ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
+        ArmSystem = new org.firstinspires.ftc.teamcode.drive.ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
         //The previous line here was deprecated :D CIC
 
         //init visionSystem.init(hardwareMap.get(WebcamName.class, "Webcam 1"));
@@ -69,7 +69,7 @@ public class RobotTeleopMain extends OpMode {
         driveSystem.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x, gamepad1.right_trigger);
 
         //controls both rotating arm and the grippers/grabbers
-        ArmSystem.restrictedControlArmRotate(gamepad2.right_trigger, gamepad2.left_trigger);
+        ArmSystem.restrictedControlArmRotate(gamepad2.right_trigger, gamepad2.left_trigger, gamepad2.a);
         ArmSystem.ControlGripper(gamepad2.dpad_down,gamepad2.dpad_up );
 
         //controls both viper-slide for hanging

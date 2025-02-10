@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.teamcode.Drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.opmodes.auto.RobotAuto;
 
 import java.util.List;
@@ -20,6 +17,8 @@ public class AutoPark {
 
     public void driveAutonomously() {
         driveSystem.moveRight(1,1000);
+        autoMain.sleep(1000);
         driveSystem.stopAllMotors();
+        autoMain.stop();
     }
 }

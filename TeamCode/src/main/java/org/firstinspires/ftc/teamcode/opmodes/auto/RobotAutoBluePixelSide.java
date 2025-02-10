@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Drive.ArmSystem;
+import org.firstinspires.ftc.teamcode.drive.ArmSystem;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.subsystems.MechanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -33,7 +33,7 @@ public class RobotAutoBluePixelSide extends RobotAuto {
     AutoDriveAndScore autoSystem;
 
     MechanumDrive driveSystem;
-    org.firstinspires.ftc.teamcode.Drive.ArmSystem ArmSystem;
+    org.firstinspires.ftc.teamcode.drive.ArmSystem ArmSystem;
 
     @Override
     public void runOpMode()
@@ -49,7 +49,7 @@ public class RobotAutoBluePixelSide extends RobotAuto {
         //servoArm = hardwareMap.servo.get("servoArm");
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        ArmSystem = new ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
+        ArmSystem = new org.firstinspires.ftc.teamcode.drive.ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
         //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, servoGrabber2, servoArm);
 
         timer = new ElapsedTime();
@@ -62,7 +62,7 @@ public class RobotAutoBluePixelSide extends RobotAuto {
         //visionPortal.resumeStreaming();
 
         driveSystem = new MechanumDrive(motorFrontLeft, motorFrontRight, motorBackLeft, motorBackRight);
-        ArmSystem = new ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
+        ArmSystem = new org.firstinspires.ftc.teamcode.drive.ArmSystem(motorLiftArm, motorRotateArm, servoGrabber, servoGrabber2);
         //ArmSystem = new ArmSystem(motorLiftArm, servoGrabber, servoGrabber2, servoArm);
         StageSwitchingPipeline visionSystem = new StageSwitchingPipeline();
 

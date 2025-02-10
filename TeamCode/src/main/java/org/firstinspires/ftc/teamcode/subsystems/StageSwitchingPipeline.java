@@ -68,8 +68,14 @@ public class StageSwitchingPipeline extends OpenCvPipeline
         //lower cb = more blue = skystone = white
         //higher cb = less blue = yellow stone = grey
         //Imgproc.cvtColor(frame, yCbCrChan2Mat, Imgproc.COLOR_RGB2GRAY);//converts rgb to gray
+
+        //look for red
         Core.extractChannel(frame, Coloredframe, 1);//takes green frame and adds it in
         Core.extractChannel(frame, Coloredframe, 2);//takes blue frame and adds it in
+
+        //look for blue
+        //Core.extractChannel(frame, Coloredframe, 0);//takes green frame and adds it in
+        //Core.extractChannel(frame, Coloredframe, 1);//takes blue frame and adds it in
 
         //b&w
         Imgproc.threshold(Coloredframe, thresholdMat, 0, 150, Imgproc.THRESH_BINARY_INV);
